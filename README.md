@@ -1,4 +1,4 @@
-## ESP_WiFiManager_Lite (Light Weight Credentials / WiFi Manager for Generic WiFi (WiFiNINA, WiFi101, WiFiEsp, etc.)  modules/shields)
+## ESP_WiFiManager_Lite ((Light Weight Credentials / WiFiManager for ESP32/ESP8266)
 
 [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_WiFiManager_Lite.svg?)](https://www.ardu-badge.com/ESP_WiFiManager_Lite)
 [![GitHub release](https://img.shields.io/github/release/khoih-prog/ESP_WiFiManager_Lite.svg)](https://github.com/khoih-prog/ESP_WiFiManager_Lite/releases)
