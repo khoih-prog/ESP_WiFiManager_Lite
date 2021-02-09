@@ -47,11 +47,11 @@
 * [Debug Termimal Output Samples](#debug-terminal-output-samples)
   * [1. ESP_WiFi on ESP32_DEV](#1-esp_wifi-on-esp32_dev)
     * [1.1 MRD/DRD => Open Config Portal](#11-mrddrd--open-config-portal)
-    * [1.2 Got valid Credentials from Config Portal then connected to WiFi](#12-got-valid-credentials-from-config-portal-then-connected-to WiFi)
+    * [1.2 Got valid Credentials from Config Portal then connected to WiFi](#12-got-valid-credentials-from-config-portal-then-connected-to-wifi)
     * [1.3 Lost a WiFi and autoconnect to another WiFi AP](#13-lost-a-wifi-and-autoconnect-to-another-wifi-ap)
-  * [2. ConfigOnDRD_FS_MQTT_Ptr_Medium on ESP8266_NODEMCU](#2-configondrd_fs_mqtt_ptr_medium-on-esp8266_nodemcu)
-    * [2.1 MRD/DRD => Open Config Portal](#21-mrddrd--open-config-portal)
-    * [2.2 Got valid Credentials from Config Portal then connected to WiFi](#22-got-valid-credentials-from-config-portal-then-connected-to WiFi)
+  * [2. ESP_WiFi_MQTT on ESP8266_NODEMCU](#2-esp_wifi_mqtt-on-esp8266_nodemcu)
+    * [2.1 No Config Data => Open Config Portal](#21-no-config-data--open-config-portal)
+    * [2.2 Got valid Credentials from Config Portal then connected to WiFi](#22-got-valid-credentials-from-config-portal-then-connected-to-wifi)
     * [2.3 Lost a WiFi and autoconnect to another WiFi AP](#23-lost-a-wifi-and-autoconnect-to-another-wifi-ap)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
@@ -1280,7 +1280,7 @@ H
 ---
 ---
 
-#### Debug
+### Debug
 
 Debug is enabled by default on Serial. To disable, add at the beginning of sketch
 
@@ -1299,7 +1299,9 @@ Debug is enabled by default on Serial. To disable, add at the beginning of sketc
 #endif
 ```
 
-## Troubleshooting
+---
+
+### Troubleshooting
 
 If you get compilation errors, more often than not, you may need to install a newer version of the board's core or this library version.
 
