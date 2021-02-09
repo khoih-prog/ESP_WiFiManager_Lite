@@ -25,7 +25,7 @@
   "dependencies": 
   [
     {
-      "owner": "khoih-prog",
+      "owner": "khoih.prog",
       "name": "ESP_DoubleResetDetector",
       "version": "^1.1.1",
       "platforms": ["espressif8266", "espressif32"]
