@@ -374,7 +374,7 @@ After you connected, please, go to http://192.168.4.1 or newly configured AP IP,
 Enter your credentials, 
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/main/pics/Input.png">
+    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/main/pics/MQTT.png">
 </p>
 
 then click `Save`. 
@@ -391,7 +391,7 @@ If you're already connected to a listed WiFi AP and don't want to change anythin
 
 ### Important Notes
 
-1. Now you can use special chars such as **~, !, @, #, $, %, ^, &, _, -, space,etc.** thanks to [brondolin](https://github.com/brondolin) to provide the amazing fix in [**Blynk_WM**](https://github.com/khoih-prog/Blynk_WM) to permit input special chars such as **%** and **#** into data fields. See [Issue 3](https://github.com/khoih-prog/Blynk_WM/issues/3).
+1. Now you can use special chars such as **~, !, @, #, $, %, ^, &, _, -, space,etc.** thanks to [brondolin](https://github.com/brondolin) to provide the amazing fix in [**No save the char # at end of the wifi password**](https://github.com/khoih-prog/Blynk_WM/issues/3) to permit input special chars such as **%** and **#** into data fields.
 2. The SSIDs, Passwords must be input (or to make them different from **blank**). Otherwise, the Config Portal will re-open until those fields have been changed. If you don't need any field, just input anything or use duplicated data from similar field.
 3. WiFi password max length now is 63 chars according to WPA2 standard.
 
