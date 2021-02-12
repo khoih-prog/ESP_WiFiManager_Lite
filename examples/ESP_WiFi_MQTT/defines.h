@@ -20,7 +20,7 @@
 /* Comment this out to disable prints and save space */
 #define ESP_WM_LITE_DEBUG_OUTPUT      Serial
 
-#define _ESP_WM_LITE_LOGLEVEL_        3
+#define _ESP_WM_LITE_LOGLEVEL_        2
 
 #define USING_MRD                     true
 
@@ -62,7 +62,8 @@
 // Config Timeout 120s (default 60s)
 #define CONFIG_TIMEOUT                            120000L
 
-#define USE_DYNAMIC_PARAMETERS              true
+// This must be true or error
+#define USE_DYNAMIC_PARAMETERS                    true
 
 #include <ESP_WiFiManager_Lite.h>
 

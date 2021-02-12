@@ -8,11 +8,12 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
-  Version: 1.0.0
+  Version: 1.1.0
    
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
   1.0.0   K Hoang      04/02/2021  Initial coding for ESP32/ESP8266
+  1.1.0   K Hoang      12/02/2021  Add support to new ESP32-S2
   *****************************************************************************************************************************/
 
 /****************************************************************************************************************************
@@ -302,11 +303,11 @@ void setup()
 
   // Optional to change default AP IP(192.168.4.1) and channel(10)
   //ESP_WiFiManager->setConfigPortalIP(IPAddress(192, 168, 120, 1));
-  ESP_WiFiManager->setConfigPortalChannel(1);
+  ESP_WiFiManager->setConfigPortalChannel(0);
 
   // Set customized DHCP HostName
   ESP_WiFiManager->begin(HOST_NAME);
-  //Or use default Hostname "ESP-WiFiNINA-XXXXXX"
+  //Or use default Hostname "ESP-WiFi-XXXXXX"
   //ESP_WiFiManager->begin();
 }
 
