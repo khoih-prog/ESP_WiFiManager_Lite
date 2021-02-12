@@ -22,7 +22,7 @@
   * [Use Arduino Library Manager](#use-arduino-library-manager)
   * [Manual Install](#manual-install)
   * [VS Code & PlatformIO](#vs-code--platformio)
-* [HOWTO Install esp32-s2 core for ESP32-S2 (Saola, AI-Thinker ESP-12K) boards into Arduino IDE)](#howto-install-esp32-s2-core-for-esp32-s2-saola-ai-thinker-esp-12k-boards-into-arduinoide)
+* [HOWTO Install esp32-s2 core for ESP32-S2 (Saola, AI-Thinker ESP-12K) boards into Arduino IDE)](##howto-install-esp32-s2-core-for-esp32-s2-saola-ai-thinker-esp-12k-boards-into-arduino-ide)
   * [1. Save the original esp32 core](#1-save-the-original-esp32-core)
   * [2. Download esp32-s2 core](#2-download-esp32-s2-core)
     * [2.1 Download zip](#21-download-zip)
@@ -133,7 +133,7 @@ This [**ESP_WiFiManager_Lite** library](https://github.com/khoih-prog/ESP_WiFiMa
 ### Release v1.1.0
 
 1. Add support to **ESP32-S2 (ESP32-S2 Saola and AI-Thinker ESP-12K)**
-2. Add [**Instructions to install ESP32-S2 core**](#howto-install-esp32-s2-core-for-esp32-s2-saola-ai-thinker-esp-12k-boards-into-arduinoide)
+2. Add [**Instructions to install ESP32-S2 core**](#howto-install-esp32-s2-core-for-esp32-s2-saola-ai-thinker-esp-12k-boards-into-arduino-ide)
 
 ### Release v1.0.0
 
@@ -146,7 +146,7 @@ This [**ESP_WiFiManager_Lite** library](https://github.com/khoih-prog/ESP_WiFiMa
 
  1. [`Arduino IDE 1.8.13+` for Arduino](https://www.arduino.cc/en/Main/Software)
  2. [`ESP8266 Core 2.7.4+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/)
- 3. [`ESP32 Core 1.0.4+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [Latest release ![Release Version](https://github.com/espressif/arduino-esp32/tree/esp32s2)
+ 3. [`ESP32 Core 1.0.4+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [Latest stable release ![Release Version](https://img.shields.io/github/release/espressif/arduino-esp32.svg?style=plastic)
  4. [`ESP32S2 Core 1.0.4+`](https://github.com/espressif/arduino-esp32/tree/esp32s2) for ESP32S2-based boards.
  5. [`ESP_DoubleResetDetector v1.1.1+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) if using DRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
  6. [`ESP_MultiResetDetector v1.1.1+`](https://github.com/khoih-prog/ESP_MultiResetDetector) if using MRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_MultiResetDetector.svg?)](https://www.ardu-badge.com/ESP_MultiResetDetector).
