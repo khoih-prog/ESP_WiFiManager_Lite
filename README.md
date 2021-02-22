@@ -15,6 +15,7 @@
   * [Features](#features)
   * [Currently supported Boards](#currently-supported-boards)
 * [Changelog](#changelog)
+  * [Release v1.2.0](#release-v120)
   * [Release v1.1.0](#release-v110)
   * [Release v1.0.0](#release-v100)
 * [Prerequisites](#prerequisites)
@@ -43,6 +44,16 @@
   * [3. ESP32 WiFi uses ADC2 for WiFi functions](#3-esp32-wifi-uses-adc2-for-wifi-functions)
 * [How It Works](#how-it-works)
 * [How to use](#how-to-use)
+  * [1. Basic usage](#1-basic-usage)
+  * [2. Add custom parameters](#2-add-custom-parameters)
+  * [3. Not using custom parameters](#3-not-using-custom-parameters)
+  * [4. To open Config Portal](#4-to-open-config-portal)
+  * [5. To use different AP WiFi Channel](#5-to-use-different-ap-wifi-channel)
+  * [6. To use different static AP IP from default](#6-to-use-different-static-ap-ip-from-default)
+  * [7. To use custom DHCP HostName](#7-to-use-custom-dhcp-hostname)
+  * [8. To use custom HTML Style](#8-to-use-custom-html-style)
+  * [9. To use custom Head Elements](#9-to-use-custom-head-elements)
+  * [10. To use CORS Header](#10-to-use-cors-header)
 * [Examples](#examples)
   * [ 1. ESP_WiFi](examples/ESP_WiFi)
   * [ 2. ESP_WiFi_MQTT](examples/ESP_WiFi_MQTT)
@@ -122,13 +133,19 @@ New recent features:
 
 This [**ESP_WiFiManager_Lite** library](https://github.com/khoih-prog/ESP_WiFiManager_Lite) currently supports these following boards:
 
- 1. **ESP32**
+ 1. **ESP32 including ESP32-S2 (ESP32-S2 Saola, AI-Thinker ESP-12K, etc.)**
  2. **ESP8266**
 
 ---
 ---
 
 ## Changelog
+
+### Release v1.2.0
+
+1. Configurable **Customs HTML Headers**, including Customs Style, Customs Head Elements, CORS Header.
+2. Fix Config Portal Bug. 
+3. Update examples
 
 ### Release v1.1.0
 
@@ -146,11 +163,11 @@ This [**ESP_WiFiManager_Lite** library](https://github.com/khoih-prog/ESP_WiFiMa
 
  1. [`Arduino IDE 1.8.13+` for Arduino](https://www.arduino.cc/en/Main/Software)
  2. [`ESP8266 Core 2.7.4+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/)
- 3. [`ESP32 Core 1.0.4+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [Latest stable release ![Release Version](https://img.shields.io/github/release/espressif/arduino-esp32.svg?style=plastic)
+ 3. [`ESP32 Core 1.0.4+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
  4. [`ESP32S2 Core 1.0.4+`](https://github.com/espressif/arduino-esp32/tree/esp32s2) for ESP32S2-based boards.
  5. [`ESP_DoubleResetDetector v1.1.1+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) if using DRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
  6. [`ESP_MultiResetDetector v1.1.1+`](https://github.com/khoih-prog/ESP_MultiResetDetector) if using MRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_MultiResetDetector.svg?)](https://www.ardu-badge.com/ESP_MultiResetDetector).
- 7. [`LittleFS_esp32 v1.0.5+`](https://github.com/lorol/LITTLEFS) for ESP32-based (including ESP32-S2) boards using LittleFS.
+ 7. [`LittleFS_esp32 v1.0.5+`](https://github.com/lorol/LITTLEFS) for ESP32-based boards using LittleFS. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/LittleFS_esp32.svg?)](https://www.ardu-badge.com/LittleFS_esp32).
 
 ---
 
@@ -365,8 +382,11 @@ Look in file [**adc_common.c**](https://github.com/espressif/esp-idf/blob/master
 - **If system can't connect to any of the 2 WiFi APs, the Config Portal will start**, after some pre-determined time, to permit user to update the Credentials.
 
 ---
+---
 
 ### How to use
+
+#### 1. Basic usage
 
 - Include in your sketch
 
@@ -377,6 +397,8 @@ Look in file [**adc_common.c**](https://github.com/espressif/esp-idf/blob/master
 ESP_WiFiManager_Lite* ESP_WiFiManager;
 ```
 
+#### 2. Add custom parameters
+
 - To add custom parameters, just add
 
 ```
@@ -386,7 +408,7 @@ ESP_WiFiManager_Lite* ESP_WiFiManager;
 
 /////////////// Start dynamic Credentials ///////////////
 
-//Defined in <WiFiManager_Generic_Lite.h>
+//Defined in <ESP_WiFiManager_Lite.h>
 /**************************************
   #define MAX_ID_LEN                5
   #define MAX_DISPLAY_NAME_LEN      16
@@ -439,11 +461,15 @@ uint16_t NUM_MENU_ITEMS = 0;
 
 ```
 
+#### 3. Not using custom parameters
+
 - If you don't need to add dynamic parameters, use the following in sketch
 
 ```
 #define USE_DYNAMIC_PARAMETERS      false
 ```
+
+#### 4. To open Config Portal
 
 - When you want to open a config portal, just add
 
@@ -452,11 +478,21 @@ ESP_WiFiManager = new ESP_WiFiManager_Lite();
 ESP_WiFiManager->begin();
 ```
 
-- To not use default AP WiFi Channel 10 to avoid conflict with other WiFi APs, call 
+#### 5. To use different AP WiFi Channel
+
+- To not use default AP WiFi Channel 10 to avoid conflict with other WiFi APs : 
 
 ```cpp
 ESP_WiFiManager->setConfigPortalChannel(newChannel);
 ```
+
+- To use random AP WiFi Channel to avoid conflict with other WiFi APs : 
+
+```cpp
+ESP_WiFiManager->setConfigPortalChannel(0);
+```
+
+#### 6. To use different static AP IP from default
 
 - To use different static AP IP (not use default `192.168.4.1`), call
 
@@ -464,21 +500,48 @@ ESP_WiFiManager->setConfigPortalChannel(newChannel);
 ESP_WiFiManager->setConfigPortalIP(IPAddress(xxx,xxx,xxx,xxx));
 ```
 
-- To set custom DHCP HostName, cal
+#### 7. To use custom DHCP HostName
+
+- To set custom DHCP HostName :
  
 ```
-  // Set customized DHCP HostName
-  ESP_WiFiManager->begin("SAMD_ABCDEF");
+// Set customized DHCP HostName
+ESP_WiFiManager->begin("ESP32-WIFI_ABCDEF");
 ```
  
-or just use the default Hostname, for example "SAMD_XXXXXX" for SAMD
+or just use the default Hostname, for example "ESP_ABCDEF"
 
 ```
-  //Or use default Hostname "WIFI_GENERIC_XXXXXX"
-  //ESP_WiFiManager->begin();
+//Or use default Hostname "ESPC_ABCDEF"
+ESP_WiFiManager->begin();
 ```
 
-While in AP mode, connect to it using its `SSID` (WIFI_GENERIC_XXXXXX) / `Password` ("MyWIFI_GENERIC_XXXXXX"), then open a browser to the Portal AP IP, default `192.168.4.1`, configure wifi then click **Save**. The Credentials / WiFi connection information will be saved in non-volatile memory. It will then autoconnect.
+#### 8. To use custom HTML Style
+
+```
+const char NewCustomsStyle[] /*PROGMEM*/ = "<style>div,input{padding:5px;font-size:1em;}input{width:95%;}body{text-align: center;}\
+button{background-color:blue;color:white;line-height:2.4rem;font-size:1.2rem;width:100%;}fieldset{border-radius:0.3rem;margin:0px;}</style>";
+
+...
+
+ESP_WiFiManager->setCustomsStyle(NewCustomsStyle);
+```
+
+#### 9. To use custom Head Elements
+
+
+```
+ESP_WiFiManager->setCustomsHeadElement("<style>html{filter: invert(10%);}</style>");
+```
+
+#### 10. To use CORS Header
+
+```
+ESP_WiFiManager->setCORSHeader("Your Access-Control-Allow-Origin");
+```
+
+
+While in AP mode, connect to it using its `SSID` (ESP_ABCDEF) / `Password` ("MyESP_ABCDEF"), then open a browser to the Portal AP IP, default `192.168.4.1`, configure wifi then click **Save**. The Credentials / WiFi connection information will be saved in non-volatile memory. It will then autoconnect.
 
 
 Once Credentials / WiFi network information is saved in the host non-volatile memory, it will try to autoconnect to WiFi every time it is started, without requiring any function calls in the sketch.
@@ -496,7 +559,7 @@ Once Credentials / WiFi network information is saved in the host non-volatile me
 
 ## So, how it works?
 
-In `Configuration Portal Mode`, it starts an AP called `ESP_WXXXXXX`. Connect to it using the `configurable password` you can define in the code. For example, `MyESP_WXXXXXX` (see examples):
+In `Configuration Portal Mode`, it starts an AP called `ESP_ABCDEF`. Connect to it using the `configurable password` you can define in the code. For example, `MyESP_ABCDEF` (see examples):
 
 After you connected, please, go to http://192.168.4.1 or newly configured AP IP, you'll see this `Main` page:
 
@@ -650,7 +713,7 @@ Example of [Default dynamicParams](examples/ESP_WiFi/dynamicParams.h)
 
 /////////////// Start dynamic Credentials ///////////////
 
-//Defined in <WiFiManager_Generic_Lite.h>
+//Defined in <ESP_WiFiManager_Lite.h>
 /**************************************
   #define MAX_ID_LEN                5
   #define MAX_DISPLAY_NAME_LEN      16
@@ -784,6 +847,12 @@ void check_status()
 
 ESP_WiFiManager_Lite* ESP_WiFiManager;
 
+
+#if USING_CUSTOMS_STYLE
+const char NewCustomsStyle[] /*PROGMEM*/ = "<style>div,input{padding:5px;font-size:1em;}input{width:95%;}body{text-align: center;}\
+button{background-color:blue;color:white;line-height:2.4rem;font-size:1.2rem;width:100%;}fieldset{border-radius:0.3rem;margin:0px;}</style>";
+#endif
+
 void setup()
 {
   // Debug console
@@ -806,11 +875,23 @@ void setup()
 
   // Optional to change default AP IP(192.168.4.1) and channel(10)
   //ESP_WiFiManager->setConfigPortalIP(IPAddress(192, 168, 120, 1));
-  //ESP_WiFiManager->setConfigPortalChannel(1);
+  ESP_WiFiManager->setConfigPortalChannel(0);
+
+#if USING_CUSTOMS_STYLE
+  ESP_WiFiManager->setCustomsStyle(NewCustomsStyle);
+#endif
+
+#if USING_CUSTOMS_HEAD_ELEMENT
+  ESP_WiFiManager->setCustomsHeadElement("<style>html{filter: invert(10%);}</style>");
+#endif
+
+#if USING_CORS_FEATURE  
+  ESP_WiFiManager->setCORSHeader("Your Access-Control-Allow-Origin");
+#endif
 
   // Set customized DHCP HostName
   ESP_WiFiManager->begin(HOST_NAME);
-  //Or use default Hostname "NRF52-WIFI-XXXXXX"
+  //Or use default Hostname "ESP32-WIFI-XXXXXX"
   //ESP_WiFiManager->begin();
 }
 
@@ -876,7 +957,7 @@ void loop()
 /* Comment this out to disable prints and save space */
 #define ESP_WM_LITE_DEBUG_OUTPUT      Serial
 
-#define _ESP_WM_LITE_LOGLEVEL_        3
+#define _ESP_WM_LITE_LOGLEVEL_        2
 
 #define USING_MRD                     true
 
@@ -907,6 +988,13 @@ void loop()
 // LittleFS has higher priority than SPIFFS
   #define USE_LITTLEFS    true
   #define USE_SPIFFS      false
+
+/////////////////////////////////////////////
+
+// Add customs headers from v1.2.0
+#define USING_CUSTOMS_STYLE           true
+#define USING_CUSTOMS_HEAD_ELEMENT    true
+#define USING_CORS_FEATURE            true
 
 /////////////////////////////////////////////
 
@@ -1044,7 +1132,7 @@ ESP_WM_LITE_Configuration defaultConfig;
 
 /////////////// Start dynamic Credentials ///////////////
 
-//Defined in <WiFiManager_Generic_Lite.h>
+//Defined in <ESP_WiFiManager_Lite.h>
 /**************************************
   #define MAX_ID_LEN                5
   #define MAX_DISPLAY_NAME_LEN      16
@@ -1112,7 +1200,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.1.0
+ESP_WiFiManager_Lite v1.2.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -1183,7 +1271,7 @@ FFFFFFFFF
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.1.0
+ESP_WiFiManager_Lite v1.2.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1255,7 +1343,7 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.1.0
+ESP_WiFiManager_Lite v1.2.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1330,7 +1418,7 @@ NNN
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.1.0
+ESP_WiFiManager_Lite v1.2.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1423,7 +1511,7 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.1.0
+ESP_WiFiManager_Lite v1.2.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1536,7 +1624,7 @@ entry 0x4004c190
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.1.0
+ESP_WiFiManager_Lite v1.2.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1661,6 +1749,12 @@ If you get compilation errors, more often than not, you may need to install a ne
 
 ## Releases
 
+### Release v1.2.0
+
+1. Configurable **Customs HTML Headers**, including Customs Style, Customs Head Elements, CORS Header.
+2. Fix Config Portal Bug. 
+3. Update examples
+
 ### Release v1.1.0
 
 1. Add support to **ESP32-S2 (ESP32-S2 Saola and AI-Thinker ESP-12K)**
@@ -1696,7 +1790,7 @@ Submit issues to: [ESP_WiFiManager_Lite issues](https://github.com/khoih-prog/ES
  6. Change Synch XMLHttpRequest to Async
  7. Add configurable Static IP, GW, Subnet Mask and 2 DNS Servers' IP Addresses.
  8. Add checksums
- 9. Add support to **ESP32 and ESP8266**
+ 9. Add support to **ESP32 including ESP32-S2 (ESP32-S2 Saola, AI-Thinker ESP-12K, etc.) and ESP8266**
 10. Add MultiWiFi features with auto(re)connect
 11. Easy-to-use **Dynamic Parameters** without the necessity to write complicated ArduinoJSon functions
 12. Permit to input special chars such as **%** and **#** into data fields.
@@ -1705,7 +1799,7 @@ Submit issues to: [ESP_WiFiManager_Lite issues](https://github.com/khoih-prog/ES
 15. Configurable Config Portal Title
 16. Re-structure all examples to separate Credentials / Defines / Dynamic Params / Code so that you can change Credentials / Dynamic Params quickly for each device.
 17. Add Table of Contents and Version String
-
+18. Configurable **Customs HTML Headers**, including Customs Style, Customs Head Elements, CORS Header
 
 ---
 ---

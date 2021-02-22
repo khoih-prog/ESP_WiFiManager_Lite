@@ -19,7 +19,7 @@
 
 /////////////// Start dynamic Credentials ///////////////
 
-//Defined in <WiFiManager_Generic_Lite.h>
+//Defined in <ESP_WiFiManager_Lite.h>
 /**************************************
   #define MAX_ID_LEN                5
   #define MAX_DISPLAY_NAME_LEN      16
