@@ -15,6 +15,7 @@
   * [Features](#features)
   * [Currently supported Boards](#currently-supported-boards)
 * [Changelog](#changelog)
+  * [Release v1.3.0](#release-v130)
   * [Release v1.2.0](#release-v120)
   * [Release v1.1.0](#release-v110)
   * [Release v1.0.0](#release-v100)
@@ -54,6 +55,7 @@
   * [8. To use custom HTML Style](#8-to-use-custom-html-style)
   * [9. To use custom Head Elements](#9-to-use-custom-head-elements)
   * [10. To use CORS Header](#10-to-use-cors-header)
+  * [11. To use and input only one set of WiFi SSID and PWD](#11-to-use-and-input-only-one-set-of-wifi-ssid-and-pwd)
 * [Examples](#examples)
   * [ 1. ESP_WiFi](examples/ESP_WiFi)
   * [ 2. ESP_WiFi_MQTT](examples/ESP_WiFi_MQTT)
@@ -141,6 +143,14 @@ This [**ESP_WiFiManager_Lite** library](https://github.com/khoih-prog/ESP_WiFiMa
 
 ## Changelog
 
+### Release v1.3.0
+
+1. Fix invalid "blank" Config Data treated as Valid.
+2. Permit optionally inputting one set of WiFi SSID/PWD by using `REQUIRE_ONE_SET_SSID_PW == true`
+3. Enforce WiFi PWD minimum length of 8 chars
+4. Fix bug where EEPROM_SIZE truncated by DRD/MRD to 512, resulting lost and corrupted data.
+5. Fix crashing bug in serverSendHeaders()
+
 ### Release v1.2.0
 
 1. Configurable **Customs HTML Headers**, including Customs Style, Customs Head Elements, CORS Header.
@@ -163,11 +173,11 @@ This [**ESP_WiFiManager_Lite** library](https://github.com/khoih-prog/ESP_WiFiMa
 
  1. [`Arduino IDE 1.8.13+` for Arduino](https://www.arduino.cc/en/Main/Software)
  2. [`ESP8266 Core 2.7.4+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/)
- 3. [`ESP32 Core 1.0.4+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
+ 3. [`ESP32 Core 1.0.6+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
  4. [`ESP32S2 Core 1.0.4+`](https://github.com/espressif/arduino-esp32/tree/esp32s2) for ESP32S2-based boards.
  5. [`ESP_DoubleResetDetector v1.1.1+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) if using DRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
  6. [`ESP_MultiResetDetector v1.1.1+`](https://github.com/khoih-prog/ESP_MultiResetDetector) if using MRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_MultiResetDetector.svg?)](https://www.ardu-badge.com/ESP_MultiResetDetector).
- 7. [`LittleFS_esp32 v1.0.5+`](https://github.com/lorol/LITTLEFS) for ESP32-based boards using LittleFS. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/LittleFS_esp32.svg?)](https://www.ardu-badge.com/LittleFS_esp32).
+ 7. [`LittleFS_esp32 v1.0.6+`](https://github.com/lorol/LITTLEFS) for ESP32-based boards using LittleFS. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/LittleFS_esp32.svg?)](https://www.ardu-badge.com/LittleFS_esp32).
 
 ---
 
@@ -546,6 +556,26 @@ While in AP mode, connect to it using its `SSID` (ESP_ABCDEF) / `Password` ("MyE
 
 Once Credentials / WiFi network information is saved in the host non-volatile memory, it will try to autoconnect to WiFi every time it is started, without requiring any function calls in the sketch.
 
+
+#### 11. To use and input only one set of WiFi SSID and PWD
+
+#### If you need to use and input only one set of WiFi SSID/PWD.
+
+```
+// Permit input only one set of WiFi SSID/PWD. The other can be "NULL or "blank"
+// Default is false (if not defined) => must input 2 sets of SSID/PWD
+#define REQUIRE_ONE_SET_SSID_PW       true
+```
+But it's always advisable to use and input both sets for reliability.
+ 
+#### If you need to use both sets of WiFi SSID/PWD
+
+```
+// Permit input only one set of WiFi SSID/PWD. The other can be "NULL or "blank"
+// Default is false (if not defined) => must input 2 sets of SSID/PWD
+#define REQUIRE_ONE_SET_SSID_PW       false
+```
+
 ---
 ---
 
@@ -589,7 +619,7 @@ If you're already connected to a listed WiFi AP and don't want to change anythin
 
 1. Now you can use special chars such as **~, !, @, #, $, %, ^, &, _, -, space,etc.** thanks to [brondolin](https://github.com/brondolin) to provide the amazing fix in [**No save the char # at end of the wifi password**](https://github.com/khoih-prog/Blynk_WM/issues/3) to permit input special chars such as **%** and **#** into data fields.
 2. The SSIDs, Passwords must be input (or to make them different from **blank**). Otherwise, the Config Portal will re-open until those fields have been changed. If you don't need any field, just input anything or use duplicated data from similar field.
-3. WiFi password max length now is 63 chars according to WPA2 standard.
+3. WiFi password min length now is 8, max length is 63 chars according to WPA2 standard.
 
 ---
 
@@ -998,15 +1028,27 @@ void loop()
 
 /////////////////////////////////////////////
 
+// Permit input only one set of WiFi SSID/PWD. The other can be "NULL or "blank"
+// Default is false (if not defined) => must input 2 sets of SSID/PWD
+#define REQUIRE_ONE_SET_SSID_PW       false
+
 // Force some params
 #define TIMEOUT_RECONNECT_WIFI                    10000L
+
+// Permit running CONFIG_TIMEOUT_RETRYTIMES_BEFORE_RESET times before reset hardware
+// to permit user another chance to config. Only if Config Data is valid.
+// If Config Data is invalid, this has no effect as Config Portal will persist
 #define RESET_IF_CONFIG_TIMEOUT                   true
+
+// Permitted range of user-defined CONFIG_TIMEOUT_RETRYTIMES_BEFORE_RESET between 2-100
 #define CONFIG_TIMEOUT_RETRYTIMES_BEFORE_RESET    5
 
-// Config Timeout 120s (default 60s)
-#define CONFIG_TIMEOUT                            120000L
+// Config Timeout 120s (default 60s). Applicable only if Config Data is Valid
+#define CONFIG_TIMEOUT                      120000L
 
 #define USE_DYNAMIC_PARAMETERS              true
+
+/////////////////////////////////////////////
 
 #include <ESP_WiFiManager_Lite.h>
 
@@ -1200,7 +1242,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.2.0
+ESP_WiFiManager_Lite v1.3.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -1271,7 +1313,7 @@ FFFFFFFFF
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.2.0
+ESP_WiFiManager_Lite v1.3.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1343,7 +1385,7 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.2.0
+ESP_WiFiManager_Lite v1.3.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1418,7 +1460,7 @@ NNN
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.2.0
+ESP_WiFiManager_Lite v1.3.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1511,7 +1553,7 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.2.0
+ESP_WiFiManager_Lite v1.3.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1624,7 +1666,7 @@ entry 0x4004c190
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.2.0
+ESP_WiFiManager_Lite v1.3.0
 ESP_MultiResetDetector v1.1.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1749,6 +1791,14 @@ If you get compilation errors, more often than not, you may need to install a ne
 
 ## Releases
 
+### Release v1.3.0
+
+1. Fix invalid "blank" Config Data treated as Valid.
+2. Permit optionally inputting one set of WiFi SSID/PWD by using `REQUIRE_ONE_SET_SSID_PW == true`
+3. Enforce WiFi PWD minimum length of 8 chars
+4. Fix bug where EEPROM_SIZE truncated by DRD/MRD to 512, resulting lost and corrupted data.
+5. Fix crashing bug in serverSendHeaders()
+
 ### Release v1.2.0
 
 1. Configurable **Customs HTML Headers**, including Customs Style, Customs Head Elements, CORS Header.
@@ -1800,6 +1850,8 @@ Submit issues to: [ESP_WiFiManager_Lite issues](https://github.com/khoih-prog/ES
 16. Re-structure all examples to separate Credentials / Defines / Dynamic Params / Code so that you can change Credentials / Dynamic Params quickly for each device.
 17. Add Table of Contents and Version String
 18. Configurable **Customs HTML Headers**, including Customs Style, Customs Head Elements, CORS Header
+19. Permit optionally inputting one set of WiFi SSID/PWD by using `REQUIRE_ONE_SET_SSID_PW == true`
+20. Enforce WiFi PWD minimum length of 8 chars
 
 ---
 ---
