@@ -82,7 +82,7 @@
   * [2. File defines.h](#2-file-definesh)
   * [3. File Credentials.h](#3-file-credentialsh)
   * [4. File dynamicParams.h](#4-file-dynamicparamsh)
-* [Debug Termimal Output Samples](#debug-terminal-output-samples)
+* [Debug Terminal Output Samples](#debug-terminal-output-samples)
   * [1. ESP_WiFi on ESP32_DEV](#1-esp_wifi-on-esp32_dev)
     * [1.1 MRD/DRD => Open Config Portal](#11-mrddrd--open-config-portal)
     * [1.2 Got valid Credentials from Config Portal then connected to WiFi](#12-got-valid-credentials-from-config-portal-then-connected-to-wifi)
@@ -1198,7 +1198,7 @@ void loop()
 #define MANUAL_SSID_INPUT_ALLOWED           true
 
 // From 2-15
-  #define MAX_SSID_IN_LIST                  8
+#define MAX_SSID_IN_LIST                  8
   
 /////////////////////////////////////////////
 
@@ -1999,7 +1999,7 @@ TWTWTWTW TWTWTWTWTW TWTW
 
 This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) example on **ESP32_DEV** with WiFi Scan for selection in Configuration Portal
 
-#### 5.1. MRD/DRD => Open Config Portal
+#### 5.1 MRD/DRD => Open Config Portal
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
@@ -2043,7 +2043,7 @@ AIO_SUB_TOPIC = /feeds/LED_Control
 N
 ```
 
-### 2. Config Data Saved => Connection to Adafruit MQTT
+### 5.2 Config Data Saved => Connection to Adafruit MQTT
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
