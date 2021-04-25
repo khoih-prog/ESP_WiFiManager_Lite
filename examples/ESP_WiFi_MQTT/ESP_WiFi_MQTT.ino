@@ -8,7 +8,7 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
-  Version: 1.4.0
+  Version: 1.5.0
    
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
@@ -17,6 +17,7 @@
   1.2.0   K Hoang      22/02/2021  Add customs HTML header feature. Fix bug.
   1.3.0   K Hoang      12/04/2021  Fix invalid "blank" Config Data treated as Valid. Fix EEPROM_SIZE bug
   1.4.0   K Hoang      21/04/2021  Add support to new ESP32-C3 using SPIFFS or EEPROM
+  1.5.0   Michael H    24/04/2021  Enable scan of WiFi networks for selection in Configuration Portal
   *****************************************************************************************************************************/
 
 /****************************************************************************************************************************
