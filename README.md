@@ -139,11 +139,11 @@ This [**ESP_WiFiManager_Lite** library](https://github.com/khoih-prog/ESP_WiFiMa
 ## Prerequisites
 
  1. [`Arduino IDE 1.8.16+` for Arduino](https://www.arduino.cc/en/Main/Software)
- 2. [`ESP32 Core 2.0.0+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
+ 2. [`ESP32 Core 2.0.1+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
  3. [`ESP8266 Core 3.0.2+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/). SPIFFS is deprecated from ESP8266 core 2.7.1+, to use LittleFS. 
- 4. [`ESP_DoubleResetDetector v1.1.2+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) if using DRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
- 5. [`ESP_MultiResetDetector v1.1.2+`](https://github.com/khoih-prog/ESP_MultiResetDetector) if using MRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_MultiResetDetector.svg?)](https://www.ardu-badge.com/ESP_MultiResetDetector).
- 6. [`LittleFS_esp32 v1.0.6+`](https://github.com/lorol/LITTLEFS) for ESP32-based boards using LittleFS. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/LittleFS_esp32.svg?)](https://www.ardu-badge.com/LittleFS_esp32). **Notice**: This [`LittleFS_esp32 library`](https://github.com/lorol/LITTLEFS) has been integrated to Arduino [esp32 core v1.0.6](https://github.com/espressif/arduino-esp32/tree/master/libraries/LITTLEFS).
+ 4. [`ESP_DoubleResetDetector v1.2.1+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) if using DRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
+ 5. [`ESP_MultiResetDetector v1.2.1+`](https://github.com/khoih-prog/ESP_MultiResetDetector) if using MRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_MultiResetDetector.svg?)](https://www.ardu-badge.com/ESP_MultiResetDetector).
+ 6. [`LittleFS_esp32 v1.0.6+`](https://github.com/lorol/LITTLEFS) for ESP32-based boards using LittleFS with ESP32 core v1.0.4-. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/LittleFS_esp32.svg?)](https://www.ardu-badge.com/LittleFS_esp32). **Notice**: This [`LittleFS_esp32 library`](https://github.com/lorol/LITTLEFS) has been integrated to Arduino [ESP32 core v1.0.6+](https://github.com/espressif/arduino-esp32/tree/master/libraries/LITTLEFS) and you don't need to install it if using ESP32 core v1.0.6+
 
 ---
 
@@ -1171,8 +1171,8 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.5.1
-ESP_MultiResetDetector v1.1.2
+ESP_WiFiManager_Lite v1.6.0
+ESP_MultiResetDetector v1.2.1
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
 lowerBytes = 0x0003, upperBytes = 0x0003
@@ -1242,8 +1242,8 @@ FFFFFFFFF
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.5.1
-ESP_MultiResetDetector v1.1.2
+ESP_WiFiManager_Lite v1.6.0
+ESP_MultiResetDetector v1.2.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1314,8 +1314,8 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.5.1
-ESP_MultiResetDetector v1.1.2
+ESP_WiFiManager_Lite v1.6.0
+ESP_MultiResetDetector v1.2.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1389,8 +1389,8 @@ NNN
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.5.1
-ESP_MultiResetDetector v1.1.2
+ESP_WiFiManager_Lite v1.6.0
+ESP_MultiResetDetector v1.2.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1481,8 +1481,8 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.5.1
-ESP_MultiResetDetector v1.1.2
+ESP_WiFiManager_Lite v1.6.0
+ESP_MultiResetDetector v1.2.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1594,8 +1594,8 @@ entry 0x4004c190
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.5.1
-ESP_MultiResetDetector v1.1.2
+ESP_WiFiManager_Lite v1.6.0
+ESP_MultiResetDetector v1.2.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1696,8 +1696,8 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.5.1
-ESP_MultiResetDetector v1.1.2
+ESP_WiFiManager_Lite v1.6.0
+ESP_MultiResetDetector v1.2.1
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
 lowerBytes = 0x0003, upperBytes = 0x0003
@@ -1724,8 +1724,8 @@ NNNN NNNNN NNNNN NNNNN NN[WML] h:UpdLittleFS
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.5.1
-ESP_MultiResetDetector v1.1.2
+ESP_WiFiManager_Lite v1.6.0
+ESP_MultiResetDetector v1.2.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1780,8 +1780,8 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.5.1
-ESP_MultiResetDetector v1.1.2
+ESP_WiFiManager_Lite v1.6.0
+ESP_MultiResetDetector v1.2.1
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
 lowerBytes = 0x0003, upperBytes = 0x0003
@@ -1824,8 +1824,8 @@ N
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.5.1
-ESP_MultiResetDetector v1.1.2
+ESP_WiFiManager_Lite v1.6.0
+ESP_MultiResetDetector v1.2.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1934,6 +1934,7 @@ Submit issues to: [ESP_WiFiManager_Lite issues](https://github.com/khoih-prog/ES
 22. Configurable **Customs HTML Headers**, including Customs Style, Customs Head Elements, CORS Header
 23. Add support to **ESP32-C3 using EEPROM and SPIFFS**
 24. Enable **scan of WiFi networks** for selection in Configuration Portal
+25. Ready for ESP32 core v2.0.0+
 
 ---
 ---
