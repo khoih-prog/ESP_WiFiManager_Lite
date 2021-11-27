@@ -28,7 +28,7 @@
 
 ### Release v1.6.0
 
-1. Auto detect ESP32 core and use either built-in LittleFS or LITTLEFS library. 
+1. Auto detect ESP32 core and use either built-in LittleFS or [LITTLEFS](https://github.com/lorol/LITTLEFS) library. 
 2. Fix bug returning IP `255.255.255.255` in core v2.0.0+ when using `hostname`
 
 
