@@ -9,7 +9,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
   
-  Version: 1.6.0
+  Version: 1.7.0
    
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
@@ -21,6 +21,7 @@
   1.5.0   Michael H    24/04/2021  Enable scan of WiFi networks for selection in Configuration Portal
   1.5.1   K Hoang      10/10/2021  Update `platform.ini` and `library.json`
   1.6.0   K Hoang      26/11/2021  Auto detect ESP32 core and use either built-in LittleFS or LITTLEFS library. Fix bug.
+  1.7.0   K Hoang      08/01/2022  Fix the blocking issue in loop() with configurable WIFI_RECON_INTERVAL
  *****************************************************************************************************************************/
 
 #pragma once
@@ -40,7 +41,7 @@
   #define USING_ESP32_C3        true
 #endif
 
-#define ESP_WIFI_MANAGER_LITE_VERSION        "ESP_WiFiManager_Lite v1.6.0"
+#define ESP_WIFI_MANAGER_LITE_VERSION        "ESP_WiFiManager_Lite v1.7.0"
 
 #ifdef ESP8266
 
@@ -179,7 +180,9 @@
     #define MAX_SSID_IN_LIST      10
   #endif
 #else
-  #warning SCAN_WIFI_NETWORKS disabled	
+  #if (_ESP_WM_LITE_LOGLEVEL_ > 3)
+    #warning SCAN_WIFI_NETWORKS disabled
+  #endif
 #endif
 
 ///////// NEW for DRD /////////////
@@ -300,13 +303,18 @@ typedef struct
 //
 
 #if USE_DYNAMIC_PARAMETERS
-  #warning Using Dynamic Parameters
+  #if (_ESP_WM_LITE_LOGLEVEL_ > 3)
+    #warning Using Dynamic Parameters
+  #endif
+  
   ///NEW
   extern uint16_t NUM_MENU_ITEMS;
   extern MenuItem myMenuItems [];
   bool *menuItemUpdated = NULL;
 #else
-  #warning Not using Dynamic Parameters
+  #if (_ESP_WM_LITE_LOGLEVEL_ > 3)
+    #warning Not using Dynamic Parameters
+  #endif
 #endif
 
 
@@ -507,7 +515,9 @@ class ESP_WiFiManager_Lite
   #define REQUIRE_ONE_SET_SSID_PW     false
 #endif
 
-#define PASSWORD_MIN_LEN        8
+#define PASSWORD_MIN_LEN              8
+
+#define RETRY_TIMES_CONNECT_WIFI			3
 
     void begin(const char *iHostname = "")
     {
@@ -565,7 +575,6 @@ class ESP_WiFiManager_Lite
       
       //// New DRD/MRD ////
       //  noConfigPortal when getConfigData() OK and no MRD/DRD'ed
-      //if (getConfigData() && noConfigPortal)
       if (hadConfigData && noConfigPortal && (!isForcedConfigPortal) )
       {
         hadConfigData = true;
@@ -634,6 +643,21 @@ class ESP_WiFiManager_Lite
   #endif
 #endif
 
+#ifndef RETRY_TIMES_RECONNECT_WIFI
+  #define RETRY_TIMES_RECONNECT_WIFI   2
+#else
+  // Force range of user-defined RETRY_TIMES_RECONNECT_WIFI between 2-5 times
+  #if (RETRY_TIMES_RECONNECT_WIFI < 2)
+    #warning RETRY_TIMES_RECONNECT_WIFI too low. Reseting to 2
+    #undef RETRY_TIMES_RECONNECT_WIFI
+    #define RETRY_TIMES_RECONNECT_WIFI   2
+  #elif (RETRY_TIMES_RECONNECT_WIFI > 5)
+    #warning RETRY_TIMES_RECONNECT_WIFI too high. Reseting to 5
+    #undef RETRY_TIMES_RECONNECT_WIFI
+    #define RETRY_TIMES_RECONNECT_WIFI   5
+  #endif
+#endif
+
 #ifndef RESET_IF_CONFIG_TIMEOUT
   #define RESET_IF_CONFIG_TIMEOUT   true
 #endif
@@ -653,9 +677,31 @@ class ESP_WiFiManager_Lite
   #endif
 #endif
 
+#if !defined(WIFI_RECON_INTERVAL)      
+  #define WIFI_RECON_INTERVAL       0         // default 0s between reconnecting WiFi
+#else
+  #if (WIFI_RECON_INTERVAL < 0)
+    #define WIFI_RECON_INTERVAL     0
+  #elif  (WIFI_RECON_INTERVAL > 600000)
+    #define WIFI_RECON_INTERVAL     600000    // Max 10min
+  #endif
+#endif
+
     void run()
     {
       static int retryTimes = 0;
+      
+      static bool wifiDisconnectedOnce = false;
+      
+      // Lost connection in running. Give chance to reconfig.
+      // Check WiFi status every 5s and update status
+      // Check twice to be sure wifi disconnected is real
+      static unsigned long checkstatus_timeout = 0;
+      #define WIFI_STATUS_CHECK_INTERVAL    5000L
+      
+      static uint32_t curMillis;
+      
+      curMillis = millis();
       
 #if USING_MRD
       //// New MRD ////
@@ -674,6 +720,29 @@ class ESP_WiFiManager_Lite
       drd->loop();
       //// New DRD ////
 #endif
+
+      if ( !configuration_mode && (curMillis > checkstatus_timeout) )
+      {       
+        if (WiFi.status() == WL_CONNECTED)
+        {
+          wifi_connected = true;
+        }
+        else
+        {
+          if (wifiDisconnectedOnce)
+          {
+            wifiDisconnectedOnce = false;
+            wifi_connected = false;
+            ESP_WML_LOGERROR(F("r:Check&WLost"));
+          }
+          else
+          {
+            wifiDisconnectedOnce = true;
+          }
+        }
+        
+        checkstatus_timeout = curMillis + WIFI_STATUS_CHECK_INTERVAL;
+      }   
 
       // Lost connection in running. Give chance to reconfig.
       if ( WiFi.status() != WL_CONNECTED )
@@ -718,8 +787,27 @@ class ESP_WiFiManager_Lite
 #endif
 
           // Not in config mode, try reconnecting before forcing to config mode
-          //if ( WiFi.status() != WL_CONNECTED )
+          if ( WiFi.status() != WL_CONNECTED )
           {
+#if (WIFI_RECON_INTERVAL > 0)
+
+            static uint32_t lastMillis = 0;
+            
+            if ( (lastMillis == 0) || (curMillis - lastMillis) > WIFI_RECON_INTERVAL )
+            {
+              lastMillis = curMillis;
+              
+              ESP_WML_LOGERROR(F("r:WLost.ReconW"));
+               
+              if (connectMultiWiFi() == WL_CONNECTED)
+              {
+                // turn the LED_BUILTIN OFF to tell us we exit configuration mode.
+                digitalWrite(LED_BUILTIN, LED_OFF);
+                
+                ESP_WML_LOGINFO(F("run: WiFi reconnected"));
+              }
+            }
+#else          
             ESP_WML_LOGINFO(F("run: WiFi lost. Reconnect WiFi"));
             
             if (connectMultiWiFi() == WL_CONNECTED)
@@ -729,6 +817,7 @@ class ESP_WiFiManager_Lite
 
               ESP_WML_LOGINFO(F("run: WiFi reconnected"));
             }
+#endif            
           }
 
           //ESP_WML_LOGINFO(F("run: Lost connection => configMode"));
@@ -756,7 +845,6 @@ class ESP_WiFiManager_Lite
 
 
   // Check cores/esp32/esp_arduino_version.h and cores/esp32/core_version.h
-  //#if ( ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(2, 0, 0) )  //(ESP_ARDUINO_VERSION_MAJOR >= 2)
   #if ( defined(ESP_ARDUINO_VERSION_MAJOR) && (ESP_ARDUINO_VERSION_MAJOR >= 2) )
       WiFi.setHostname(RFC952_hostname);
   #else     
@@ -922,10 +1010,7 @@ class ESP_WiFiManager_Lite
     
     // Forced CP => Flag = 0xBEEFBEEF. Else => No forced CP
     // Flag to be stored at (EEPROM_START + DRD_FLAG_DATA_SIZE + CONFIG_DATA_SIZE) 
-    // to avoid corruption to current data
-    //#define FORCED_CONFIG_PORTAL_FLAG_DATA              ( (uint32_t) 0xDEADBEEF)
-    //#define FORCED_PERS_CONFIG_PORTAL_FLAG_DATA         ( (uint32_t) 0xBEEFDEAD)
-    
+    // to avoid corruption to current data   
     const uint32_t FORCED_CONFIG_PORTAL_FLAG_DATA       = 0xDEADBEEF;
     const uint32_t FORCED_PERS_CONFIG_PORTAL_FLAG_DATA  = 0xBEEFDEAD;
     
@@ -2214,6 +2299,17 @@ class ESP_WiFiManager_Lite
 
     //////////////////////////////////////////////
     
+// New connectMultiWiFi() logic from v1.7.0
+// Max times to try WiFi per loop() iteration. To avoid blocking issue in loop()
+// Default 1 and minimum 1.
+#if !defined(MAX_NUM_WIFI_RECON_TRIES_PER_LOOP)      
+  #define MAX_NUM_WIFI_RECON_TRIES_PER_LOOP     1
+#else
+  #if (MAX_NUM_WIFI_RECON_TRIES_PER_LOOP < 1)  
+    #define MAX_NUM_WIFI_RECON_TRIES_PER_LOOP     1
+  #endif
+#endif
+
     uint8_t connectMultiWiFi()
     {
 #if ESP32
@@ -2243,10 +2339,11 @@ class ESP_WiFiManager_Lite
       int i = 0;
       status = wifiMulti.run();
       delay(WIFI_MULTI_1ST_CONNECT_WAITING_MS);
+      
+      uint8_t numWiFiReconTries = 0;
 
-      while ( ( i++ < 20 ) && ( status != WL_CONNECTED ) )
+      while ( ( status != WL_CONNECTED ) && (numWiFiReconTries++ < MAX_NUM_WIFI_RECON_TRIES_PER_LOOP) )
       {
-        //status = wifiMulti.run();
         status = WiFi.status();
 
         if ( status == WL_CONNECTED )
@@ -2265,6 +2362,8 @@ class ESP_WiFiManager_Lite
       {
         ESP_WML_LOGERROR(F("WiFi not connected"));
 
+#if RESET_IF_NO_WIFI
+
     #if USING_MRD
         // To avoid unnecessary MRD
         mrd->loop();
@@ -2277,12 +2376,14 @@ class ESP_WiFiManager_Lite
         ESP.reset();
     #else
         ESP.restart();
-    #endif  
+    #endif
+    
+#endif    
       }
 
       return status;
     }
-
+    
     //////////////////////////////////////////////
     
     // NEW
@@ -2614,7 +2715,6 @@ class ESP_WiFiManager_Lite
           ESP_WML_LOGERROR(F("h:UpdEEPROM"));
 #endif
      
-          //saveConfigData();
           saveAllConfigData();
           
           // Done with CP, Clear CP Flag here if forced
@@ -2674,6 +2774,10 @@ class ESP_WiFiManager_Lite
       }
       else
         channel = WiFiAPChannel;
+      
+      // softAPConfig() must be put before softAP() for ESP8266 core v3.0.0+ to work.
+      // ESP32 or ESP8266is core v3.0.0- is OK either way
+      WiFi.softAPConfig(portal_apIP, portal_apIP, IPAddress(255, 255, 255, 0));
 
       WiFi.softAP(portal_ssid.c_str(), portal_pass.c_str(), channel);
       
@@ -2681,7 +2785,9 @@ class ESP_WiFiManager_Lite
       ESP_WML_LOGERROR3(F("IP="), portal_apIP.toString(), ",ch=", channel);
       
       delay(100); // ref: https://github.com/espressif/arduino-esp32/issues/985#issuecomment-359157428
-      WiFi.softAPConfig(portal_apIP, portal_apIP, IPAddress(255, 255, 255, 0));
+      
+      // Move up for ESP8266
+      //WiFi.softAPConfig(portal_apIP, portal_apIP, IPAddress(255, 255, 255, 0));
 
       if (!server)
       {
