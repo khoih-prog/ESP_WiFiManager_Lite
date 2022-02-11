@@ -9,7 +9,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
   
-  Version: 1.7.0
+  Version: 1.8.0
    
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
@@ -22,6 +22,7 @@
   1.5.1   K Hoang      10/10/2021  Update `platform.ini` and `library.json`
   1.6.0   K Hoang      26/11/2021  Auto detect ESP32 core and use either built-in LittleFS or LITTLEFS library. Fix bug.
   1.7.0   K Hoang      08/01/2022  Fix the blocking issue in loop() with configurable WIFI_RECON_INTERVAL
+  1.8.0   K Hoang      10/02/2022  Add support to new ESP32-S3
  *****************************************************************************************************************************/
 
 #pragma once
@@ -39,9 +40,21 @@
 #elif ( ARDUINO_ESP32C3_DEV )
   #warning Using ESP32_C3. To follow library instructions to install esp32-c3 core. Only SPIFFS and EEPROM OK.
   #define USING_ESP32_C3        true
+#elif ( defined(ARDUINO_ESP32S3_DEV) || defined(ARDUINO_ESP32_S3_BOX) || defined(ARDUINO_TINYS3) || \
+        defined(ARDUINO_PROS3) || defined(ARDUINO_FEATHERS3) )
+  #warning Using ESP32_S3. To install esp32-s3-support branch if using core v2.0.2-.
+  #define USING_ESP32_S3        true  
 #endif
 
-#define ESP_WIFI_MANAGER_LITE_VERSION        "ESP_WiFiManager_Lite v1.7.0"
+#ifndef ESP_WIFI_MANAGER_LITE_VERSION
+  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.8.0"
+  
+  #define ESP_WIFI_MANAGER_LITE_VERSION_MAJOR       1
+  #define ESP_WIFI_MANAGER_LITE_VERSION_MINOR       8
+  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       0
+
+  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1008000
+#endif
 
 #ifdef ESP8266
 
