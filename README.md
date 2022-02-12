@@ -85,6 +85,7 @@
     * [5.1 MRD/DRD => Open Config Portal](#51-mrddrd--open-config-portal)
     * [5.2 Config Data Saved => Connection to Adafruit MQTT](#52-config-data-saved--connection-to-adafruit-mqtt)
   * [6. ESP_WiFi on ESP32S3_DEV](#6-ESP_WiFi-on-ESP32S3_DEV) **New**
+  * [7. ESP_WiFi on ESP32C3_DEV using LittleFS](#7-ESP_WiFi-on-ESP32C3_DEV-using-LittleFS) **New**
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [Issues](#issues)
@@ -137,7 +138,7 @@ This [**ESP_WiFiManager_Lite** library](https://github.com/khoih-prog/ESP_WiFiMa
 
  1. **ESP8266 and ESP32-based boards using EEPROM, SPIFFS or LittleFS**.
  2. **ESP32-S2 (ESP32-S2 Saola, AI-Thinker ESP-12K, etc.) using EEPROM, SPIFFS or LittleFS**.
- 3. **ESP32-C3 (ARDUINO_ESP32C3_DEV) using EEPROM or SPIFFS**.
+ 3. **ESP32-C3 (ARDUINO_ESP32C3_DEV) using EEPROM, SPIFFS or LittleFS**.
  4. **ESP32-S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, etc.) using EEPROM, SPIFFS or LittleFS**.
 
 ---
@@ -971,13 +972,13 @@ void loop()
 /////////////////////////////////////////////
 
 // LittleFS has higher priority than SPIFFS
-#if ( ARDUINO_ESP32C3_DEV )
-  // Currently, ESP32-C3 only supporting SPIFFS and EEPROM. Will fix to support LittleFS
-  #define USE_LITTLEFS          false
-  #define USE_SPIFFS            true
-#else
+#if ( defined(ESP_ARDUINO_VERSION_MAJOR) && (ESP_ARDUINO_VERSION_MAJOR >= 2) )
   #define USE_LITTLEFS    true
   #define USE_SPIFFS      false
+#elif defined(ARDUINO_ESP32C3_DEV)
+  // For core v1.0.6-, ESP32-C3 only supporting SPIFFS and EEPROM. To use v2.0.0+ for LittleFS
+  #define USE_LITTLEFS          false
+  #define USE_SPIFFS            true
 #endif
 
 /////////////////////////////////////////////
@@ -1232,8 +1233,8 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.7.0
-ESP_MultiResetDetector v1.2.1
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
 lowerBytes = 0x0003, upperBytes = 0x0003
@@ -1303,8 +1304,8 @@ FFFFFFFFF
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.7.0
-ESP_MultiResetDetector v1.2.1
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1375,8 +1376,8 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.7.0
-ESP_MultiResetDetector v1.2.1
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1450,8 +1451,8 @@ NNN
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.7.0
-ESP_MultiResetDetector v1.2.1
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1542,8 +1543,8 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.7.0
-ESP_MultiResetDetector v1.2.1
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1655,8 +1656,8 @@ entry 0x4004c190
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.7.0
-ESP_MultiResetDetector v1.2.1
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1757,8 +1758,8 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.7.0
-ESP_MultiResetDetector v1.2.1
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
 lowerBytes = 0x0003, upperBytes = 0x0003
@@ -1785,8 +1786,8 @@ NNNN NNNNN NNNNN NNNNN NN[WML] h:UpdLittleFS
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.7.0
-ESP_MultiResetDetector v1.2.1
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1841,8 +1842,8 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.7.0
-ESP_MultiResetDetector v1.2.1
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
 lowerBytes = 0x0003, upperBytes = 0x0003
@@ -1885,8 +1886,8 @@ N
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.7.0
-ESP_MultiResetDetector v1.2.1
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1933,7 +1934,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32S3_DEV
-ESP_WiFiManager_Lite v1.8.0
+ESP_WiFiManager_Lite v1.8.1
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1942,15 +1943,57 @@ No multiResetDetected, number of times = 1
 LittleFS Flag read = 0xFFFE0001
 Saving config file...
 Saving config file OK
-[WML] Hdr=ESP_WM_LITE,SSID=HueNet1,PW=jenniqqs
-[WML] SSID1=HueNet2,PW1=jenniqqs
+[WML] Hdr=ESP_WM_LITE,SSID=HueNet1,PW=password
+[WML] SSID1=HueNet2,PW1=password
 [WML] BName=ESP32_S3
-[WML] Hdr=ESP_WM_LITE,SSID=HueNet1,PW=jenniqqs
-[WML] SSID1=HueNet2,PW1=jenniqqs
+[WML] Hdr=ESP_WM_LITE,SSID=HueNet1,PW=password
+[WML] SSID1=HueNet2,PW1=password
 [WML] BName=ESP32_S3
 [WML] WiFi connected after time: 0
 [WML] SSID=HueNet1,RSSI=-23
 [WML] Channel=2,IP=192.168.2.83
+H
+Your stored Credentials :
+Blynk Server1 = account.duckdns.org
+Token1 = token1
+Blynk Server2 = account.ddns.net
+Token2 = token2
+Port = 8080
+MQTT Server = mqtt.duckdns.org
+Stop multiResetDetecting
+Saving config file...
+Saving config file OK
+HHH
+```
+
+---
+
+### 7. [ESP_WiFi](examples/ESP_WiFi) on ESP32C3_DEV using LittleFS
+
+
+This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) example on **ESP32C3_DEV** using LittleFS
+
+
+```
+Starting ESP_WiFi using LittleFS on ESP32C3_DEV
+ESP_WiFiManager_Lite v1.8.1
+ESP_MultiResetDetector v1.3.0
+LittleFS Flag read = 0xFFFE0001
+multiResetDetectorFlag = 0xFFFE0001
+lowerBytes = 0x0001, upperBytes = 0x0001
+No multiResetDetected, number of times = 1
+LittleFS Flag read = 0xFFFE0001
+Saving config file...
+Saving config file OK
+[WML] Hdr=ESP_WM_LITE,SSID=HueNet1,PW=password
+[WML] SSID1=HueNet2,PW1=password
+[WML] BName=ESP32_C3
+[WML] Hdr=ESP_WM_LITE,SSID=HueNet1,PW=password
+[WML] SSID1=HueNet2,PW1=password
+[WML] BName=ESP32_C3
+[WML] WiFi connected after time: 0
+[WML] SSID=HueNet1,RSSI=-21
+[WML] Channel=2,IP=192.168.2.85
 H
 Your stored Credentials :
 Blynk Server1 = account.duckdns.org
@@ -2041,7 +2084,8 @@ Submit issues to: [ESP_WiFiManager_Lite issues](https://github.com/khoih-prog/ES
 26. Fix ESP8266 bug not easy to connect to Config Portal for ESP8266 core v3.0.0+ 
 27. Fix the blocking issue in loop() with configurable `WIFI_RECON_INTERVAL`
 28. Add support to **ESP32-S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, etc.) using EEPROM, SPIFFS or LittleFS**
-
+29. Add `LittleFS` support to **ESP32-C3**
+30. Use `ESP32-core's LittleFS` library instead of `Lorol's LITTLEFS` library for ESP32 core v2.0.0+
 
 ---
 ---
