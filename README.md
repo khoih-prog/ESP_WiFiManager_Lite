@@ -512,16 +512,10 @@ Check [retries block the main loop #18](https://github.com/khoih-prog/WiFiManage
 
 #### 14. Not using Board_Name on Config_Portal
 
-Default is `true`. Just change to `false` to Not using `Board_Name` on Config_Portal
+Default is `true`. Just change to `false` to not using `Board_Name` on Config_Portal
 
-```
-/////////////////////////////////////////////
+https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/ce798e201dc1e895ca952ca212123b7091323a99/examples/ESP_WiFi/defines.h#L125-L130
 
-// Optional, to use Board Name in Menu
-#define USING_BOARD_NAME                    false
-
-/////////////////////////////////////////////
-```
 
 ---
 ---
