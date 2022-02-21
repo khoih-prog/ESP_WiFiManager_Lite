@@ -124,6 +124,11 @@
   
 /////////////////////////////////////////////
 
+// Optional, to use Board Name in Menu
+#define USING_BOARD_NAME                    true
+
+/////////////////////////////////////////////
+
 #include <ESP_WiFiManager_Lite.h>
 
 #if ESP8266 

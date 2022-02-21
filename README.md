@@ -6,7 +6,8 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/ESP_WiFiManager_Lite.svg)](http://github.com/khoih-prog/ESP_WiFiManager_Lite/issues)
 
-<a href="https://www.buymeacoffee.com/khoihprog6" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
 
 ---
 ---
@@ -49,6 +50,7 @@
   * [13. To avoid blocking in loop when WiFi is lost](#13-To-avoid-blocking-in-loop-when-wifi-is-lost)
     * [13.1 Max times to try WiFi per loop](#131-max-times-to-try-wifi-per-loop)
     * [13.2 Interval between reconnection WiFi if lost](#132-interval-between-reconnection-wifi-if-lost) 
+  * [14. Not using Board_Name on Config_Portal](#14-Not-using-Board_Name-on-Config_Portal) 
 * [Examples](#examples)
   * [ 1. ESP_WiFi](examples/ESP_WiFi)
   * [ 2. ESP_WiFi_MQTT](examples/ESP_WiFi_MQTT)
@@ -508,6 +510,19 @@ Check [retries block the main loop #18](https://github.com/khoih-prog/WiFiManage
 #define WIFI_RECON_INTERVAL                   30000     // 30s
 ```
 
+#### 14. Not using Board_Name on Config_Portal
+
+Default is `true`. Just change to `false` to Not using `Board_Name` on Config_Portal
+
+```
+/////////////////////////////////////////////
+
+// Optional, to use Board Name in Menu
+#define USING_BOARD_NAME                    false
+
+/////////////////////////////////////////////
+```
+
 ---
 ---
 
@@ -791,14 +806,21 @@ Please take a look at other examples, as well.
 #include "Credentials.h"
 #include "dynamicParams.h"
 
+ESP_WiFiManager_Lite* ESP_WiFiManager;
+
 void heartBeatPrint()
 {
   static int num = 1;
 
   if (WiFi.status() == WL_CONNECTED)
-    Serial.print(F("H"));        // H means connected to WiFi
+    Serial.print("H");        // H means connected to WiFi
   else
-    Serial.print(F("F"));        // F means not connected to WiFi
+  {
+    if (ESP_WiFiManager->isConfigMode())
+      Serial.print("C");        // C means in Config Mode
+    else
+      Serial.print("F");        // F means not connected to WiFi  
+  }
 
   if (num == 80)
   {
@@ -825,9 +847,6 @@ void check_status()
   }
 }
 
-ESP_WiFiManager_Lite* ESP_WiFiManager;
-
-
 #if USING_CUSTOMS_STYLE
 const char NewCustomsStyle[] /*PROGMEM*/ = "<style>div,input{padding:5px;font-size:1em;}input{width:95%;}body{text-align: center;}\
 button{background-color:blue;color:white;line-height:2.4rem;font-size:1.2rem;width:100%;}fieldset{border-radius:0.3rem;margin:0px;}</style>";
@@ -852,6 +871,12 @@ void setup()
 #endif
 
   ESP_WiFiManager = new ESP_WiFiManager_Lite();
+
+  String AP_SSID = "your_customized_ssid";
+  String AP_PWD  = "your_customized_pwd";
+  
+  // Set customized AP SSID and PWD
+  ESP_WiFiManager->setConfigPortal(AP_SSID, AP_PWD);
 
   // Optional to change default AP IP(192.168.4.1) and channel(10)
   //ESP_WiFiManager->setConfigPortalIP(IPAddress(192, 168, 120, 1));
@@ -1039,6 +1064,11 @@ void loop()
 // From 2-15
   #define MAX_SSID_IN_LIST                  8
   
+/////////////////////////////////////////////
+
+// Optional, to use Board Name in Menu
+#define USING_BOARD_NAME                    true
+
 /////////////////////////////////////////////
 
 #include <ESP_WiFiManager_Lite.h>
@@ -1233,7 +1263,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -1289,7 +1319,7 @@ Saving config file OK
 stConf:SSID=ESP_9ABF498,PW=MyESP_9ABF498
 [WML] IP=192.168.4.1,ch=10
 [WML] s:millis() = 1014, configTimeout = 121014
-F
+C
 Your stored Credentials :
 Blynk Server1 = new.duckdns.org
 Token1 = token1
@@ -1297,14 +1327,14 @@ Blynk Server2 = new.ddns.net
 Token2 = token2
 Port = 8080
 MQTT Server = mqtt.duckdns.org
-FFFFFFFFF
+CCCCCCCCC
 ```
 
 #### 1.2. Got valid Credentials from Config Portal then connected to WiFi
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1376,7 +1406,7 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1419,7 +1449,7 @@ Saving config file OK
 [WML] OK
 [WML] SaveBkUpCPFile 
 [WML] OK
-N
+C
 Your stored Credentials :
 AIO_SERVER = blank
 AIO_SERVERPORT = blank
@@ -1430,7 +1460,7 @@ AIO_SUB_TOPIC = blank
 NStop multiResetDetecting
 Saving config file...
 Saving config file OK
-NNN 
+CCC
 ```
 
 #### 2.2. Got valid Credentials from Config Portal then connected to WiFi
@@ -1451,7 +1481,7 @@ NNN
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1543,7 +1573,7 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1567,7 +1597,7 @@ Saving config file OK
 stConf:SSID=ESP_8A1DF7C,PW=MyESP_8A1DF7C
 [WML] IP=192.168.4.1,ch=1
 [WML] s:configTimeout = 0
-N
+C
 Your stored Credentials :
 AIO_SERVER = io.adafruit.com
 AIO_SERVERPORT = 1883
@@ -1578,7 +1608,7 @@ AIO_SUB_TOPIC = /feeds/LED_Control
 NStop multiResetDetecting
 Saving config file...
 Saving config file OK
-NNN N
+CCC C
 ```
 
 #### 3.2. Got valid Credentials from Config Portal then connected to WiFi
@@ -1656,7 +1686,7 @@ entry 0x4004c190
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1758,7 +1788,7 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -1769,7 +1799,7 @@ Saving config file OK
 [WML] 
 stConf:SSID=ESP_8A1DF7C,PW=MyESP_8A1DF7C
 [WML] IP=192.168.4.1,ch=3
-N
+C
 Your stored Credentials :
 AIO_SERVER = io.adafruit.com
 AIO_SERVERPORT = 1883
@@ -1786,7 +1816,7 @@ NNNN NNNNN NNNNN NNNNN NN[WML] h:UpdLittleFS
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1842,7 +1872,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -1871,7 +1901,7 @@ Saving config file OK
 [WML] 
 stConf:SSID=ESP_9ABF498,PW=MyESP_9ABF498
 [WML] IP=192.168.4.1,ch=11
-N
+C
 Your stored Credentials :
 AIO_SERVER = io.adafruit.com
 AIO_SERVERPORT = 1883
@@ -1879,14 +1909,14 @@ AIO_USERNAME = private
 AIO_KEY = private
 AIO_PUB_TOPIC = /feeds/Temperature
 AIO_SUB_TOPIC = /feeds/LED_Control
-N
+CCC
 ```
 
 ### 5.2 Config Data Saved => Connection to Adafruit MQTT
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1934,7 +1964,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32S3_DEV
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1976,7 +2006,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32C3_DEV
-ESP_WiFiManager_Lite v1.8.1
+ESP_WiFiManager_Lite v1.8.2
 ESP_MultiResetDetector v1.3.0
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -2086,6 +2116,9 @@ Submit issues to: [ESP_WiFiManager_Lite issues](https://github.com/khoih-prog/ES
 28. Add support to **ESP32-S3 (ESP32S3_DEV, ESP32_S3_BOX, UM TINYS3, UM PROS3, UM FEATHERS3, etc.) using EEPROM, SPIFFS or LittleFS**
 29. Add `LittleFS` support to **ESP32-C3**
 30. Use `ESP32-core's LittleFS` library instead of `Lorol's LITTLEFS` library for ESP32 core v2.0.0+
+31. Optimize code by passing by `reference` instead of `value`
+32. Optional `Board_Name` in Config Portal
+33. Add function `isConfigMode()` to signal system is in Config Portal mode
 
 ---
 ---

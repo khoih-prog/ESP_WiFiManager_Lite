@@ -9,7 +9,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
   
-  Version: 1.8.1
+  Version: 1.8.2
    
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
@@ -23,7 +23,8 @@
   1.6.0   K Hoang      26/11/2021  Auto detect ESP32 core and use either built-in LittleFS or LITTLEFS library. Fix bug.
   1.7.0   K Hoang      08/01/2022  Fix the blocking issue in loop() with configurable WIFI_RECON_INTERVAL
   1.8.0   K Hoang      10/02/2022  Add support to new ESP32-S3
-  1.8.1   K Hoang      11/02/2022 Add LittleFS support to ESP32-C3. Use core LittleFS instead of Lorol's LITTLEFS for v2.0.0+
+  1.8.1   K Hoang      11/02/2022  Add LittleFS support to ESP32-C3. Use core LittleFS instead of Lorol's LITTLEFS for v2.0.0+
+  1.8.2   K Hoang      21/02/2022  Optional Board_Name in Menu. Optimize code by using passing by reference
  *****************************************************************************************************************************/
 
 #pragma once
@@ -54,13 +55,13 @@
 #endif
 
 #ifndef ESP_WIFI_MANAGER_LITE_VERSION
-  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.8.1"
+  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.8.2"
   
   #define ESP_WIFI_MANAGER_LITE_VERSION_MAJOR       1
   #define ESP_WIFI_MANAGER_LITE_VERSION_MINOR       8
-  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       1
+  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       2
 
-  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1008001
+  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1008002
 #endif
 
 #ifdef ESP8266
@@ -357,8 +358,14 @@ typedef struct
 
 #define NUM_WIFI_CREDENTIALS      2
 
-// Configurable items besides fixed Header, just add board_name 
-#define NUM_CONFIGURABLE_ITEMS    ( ( 2 * NUM_WIFI_CREDENTIALS ) + 1 )
+#if USING_BOARD_NAME
+  // Configurable items besides fixed Header, just add board_name 
+  #define NUM_CONFIGURABLE_ITEMS    ( ( 2 * NUM_WIFI_CREDENTIALS ) + 1 )
+#else
+  // Configurable items besides fixed Header, just add board_name 
+  #define NUM_CONFIGURABLE_ITEMS    ( ( 2 * NUM_WIFI_CREDENTIALS ))
+#endif
+
 ////////////////
 
 #define HEADER_MAX_LEN            16
@@ -385,12 +392,20 @@ const char ESP_WM_LITE_HTML_HEAD_START[] /*PROGMEM*/ = "<!DOCTYPE html><html><he
 
 const char ESP_WM_LITE_HTML_HEAD_STYLE[] /*PROGMEM*/ = "<style>div,input{padding:5px;font-size:1em;}input{width:95%;}body{text-align: center;}button{background-color:#16A1E7;color:#fff;line-height:2.4rem;font-size:1.2rem;width:100%;}fieldset{border-radius:0.3rem;margin:0px;}</style>";
 
+#if USING_BOARD_NAME
 const char ESP_WM_LITE_HTML_HEAD_END[]   /*PROGMEM*/ = "</head><div style='text-align:left;display:inline-block;min-width:260px;'>\
 <fieldset><div><label>*WiFi SSID</label><div>[[input_id]]</div></div>\
 <div><label>*PWD (8+ chars)</label><input value='[[pw]]' id='pw'><div></div></div>\
 <div><label>*WiFi SSID1</label><div>[[input_id1]]</div></div>\
 <div><label>*PWD1 (8+ chars)</label><input value='[[pw1]]' id='pw1'><div></div></div></fieldset>\
 <fieldset><div><label>Board Name</label><input value='[[nm]]' id='nm'><div></div></div></fieldset>";	// DO NOT CHANGE THIS STRING EVER!!!!
+#else
+const char ESP_WM_LITE_HTML_HEAD_END[]   /*PROGMEM*/ = "</head><div style='text-align:left;display:inline-block;min-width:260px;'>\
+<fieldset><div><label>*WiFi SSID</label><div>[[input_id]]</div></div>\
+<div><label>*PWD (8+ chars)</label><input value='[[pw]]' id='pw'><div></div></div>\
+<div><label>*WiFi SSID1</label><div>[[input_id1]]</div></div>\
+<div><label>*PWD1 (8+ chars)</label><input value='[[pw1]]' id='pw1'><div></div></div></fieldset>";	// DO NOT CHANGE THIS STRING EVER!!!!
+#endif
 
 const char ESP_WM_LITE_HTML_INPUT_ID[]   /*PROGMEM*/ = "<input value='[[id]]' id='id'>";
 const char ESP_WM_LITE_HTML_INPUT_ID1[]  /*PROGMEM*/ = "<input value='[[id1]]' id='id1'>";
@@ -399,12 +414,21 @@ const char ESP_WM_LITE_FLDSET_START[]  /*PROGMEM*/ = "<fieldset>";
 const char ESP_WM_LITE_FLDSET_END[]    /*PROGMEM*/ = "</fieldset>";
 const char ESP_WM_LITE_HTML_PARAM[]    /*PROGMEM*/ = "<div><label>{b}</label><input value='[[{v}]]'id='{i}'><div></div></div>";
 const char ESP_WM_LITE_HTML_BUTTON[]   /*PROGMEM*/ = "<button onclick=\"sv()\">Save</button></div>";
+
+#if USING_BOARD_NAME
 const char ESP_WM_LITE_HTML_SCRIPT[]   /*PROGMEM*/ = "<script id=\"jsbin-javascript\">\
 function udVal(key,val){var request=new XMLHttpRequest();var url='/?key='+key+'&value='+encodeURIComponent(val);\
 request.open('GET',url,false);request.send(null);}\
 function sv(){udVal('id',document.getElementById('id').value);udVal('pw',document.getElementById('pw').value);\
 udVal('id1',document.getElementById('id1').value);udVal('pw1',document.getElementById('pw1').value);\
 udVal('nm',document.getElementById('nm').value);";
+#else
+const char ESP_WM_LITE_HTML_SCRIPT[]   /*PROGMEM*/ = "<script id=\"jsbin-javascript\">\
+function udVal(key,val){var request=new XMLHttpRequest();var url='/?key='+key+'&value='+encodeURIComponent(val);\
+request.open('GET',url,false);request.send(null);}\
+function sv(){udVal('id',document.getElementById('id').value);udVal('pw',document.getElementById('pw').value);\
+udVal('id1',document.getElementById('id1').value);udVal('pw1',document.getElementById('pw1').value);";
+#endif
 
 const char ESP_WM_LITE_HTML_SCRIPT_ITEM[]  /*PROGMEM*/ = "udVal('{d}',document.getElementById('{d}').value);";
 const char ESP_WM_LITE_HTML_SCRIPT_END[]   /*PROGMEM*/ = "alert('Updated');}</script>";
@@ -438,7 +462,7 @@ const char WM_HTTP_CORS_ALLOW_ALL[]  /*PROGMEM*/ = "*";
 
 //////////////////////////////////////////
 
-String IPAddressToString(IPAddress _address)
+String IPAddressToString(const IPAddress& _address)
 {
   String str = String(_address[0]);
   str += ".";
@@ -889,14 +913,14 @@ class ESP_WiFiManager_Lite
     
     //////////////////////////////////////////////
 
-    void setConfigPortalIP(IPAddress portalIP = IPAddress(192, 168, 4, 1))
+    void setConfigPortalIP(const IPAddress& portalIP = IPAddress(192, 168, 4, 1))
     {
       portal_apIP = portalIP;
     }
     
     //////////////////////////////////////////////
     
-    void setConfigPortal(String ssid = "", String pass = "")
+    void setConfigPortal(const String& ssid = "", const String& pass = "")
     {
       portal_ssid = ssid;
       portal_pass = pass;
@@ -907,7 +931,7 @@ class ESP_WiFiManager_Lite
     #define MIN_WIFI_CHANNEL      1
     #define MAX_WIFI_CHANNEL      11    // Channel 13 is flaky, because of bad number 13 ;-)
 
-    int setConfigPortalChannel(int channel = 1)
+    int setConfigPortalChannel(const int& channel = 1)
     {
       // If channel < MIN_WIFI_CHANNEL - 1 or channel > MAX_WIFI_CHANNEL => channel = 1
       // If channel == 0 => will use random channel from MIN_WIFI_CHANNEL to MAX_WIFI_CHANNEL
@@ -922,9 +946,10 @@ class ESP_WiFiManager_Lite
     
     //////////////////////////////////////////////
     
-    void setSTAStaticIPConfig(IPAddress ip, IPAddress gw, IPAddress sn = IPAddress(255, 255, 255, 0),
-                              IPAddress dns_address_1 = IPAddress(0, 0, 0, 0),
-                              IPAddress dns_address_2 = IPAddress(0, 0, 0, 0))
+    void setSTAStaticIPConfig(const IPAddress& ip, const IPAddress& gw, 
+                              const IPAddress& sn = IPAddress(255, 255, 255, 0),
+                              const IPAddress& dns_address_1 = IPAddress(0, 0, 0, 0),
+                              const IPAddress& dns_address_2 = IPAddress(0, 0, 0, 0))
     {
       static_IP     = ip;
       static_GW     = gw;
@@ -945,7 +970,7 @@ class ESP_WiFiManager_Lite
     
     //////////////////////////////////////////////
     
-    String getWiFiSSID(uint8_t index)
+    String getWiFiSSID(const uint8_t& index)
     { 
       if (index >= NUM_WIFI_CREDENTIALS)
         return String("");
@@ -958,7 +983,7 @@ class ESP_WiFiManager_Lite
     
     //////////////////////////////////////////////
 
-    String getWiFiPW(uint8_t index)
+    String getWiFiPW(const uint8_t& index)
     {
       if (index >= NUM_WIFI_CREDENTIALS)
         return String("");
@@ -1031,6 +1056,13 @@ class ESP_WiFiManager_Lite
     bool isConfigDataValid()
     {
       return hadConfigData;
+    }
+    
+    //////////////////////////////////////////////
+    
+    bool isConfigMode()
+    {
+      return configuration_mode;
     }
     
     //////////////////////////////////////////////
@@ -1245,7 +1277,7 @@ class ESP_WiFiManager_Lite
     
     //////////////////////////////////////
     
-    void displayConfigData(ESP_WM_LITE_Configuration configData)
+    void displayConfigData(const ESP_WM_LITE_Configuration& configData)
     {
       ESP_WML_LOGERROR5(F("Hdr="),   configData.header, F(",SSID="), configData.WiFi_Creds[0].wifi_ssid,
                         F(",PW="),   configData.WiFi_Creds[0].wifi_pw);
@@ -1338,7 +1370,7 @@ class ESP_WiFiManager_Lite
 
     //////////////////////////////////////////////
     
-    void saveForcedCP(uint32_t value)
+    void saveForcedCP(const uint32_t& value)
     {
       File file = FileFS.open(CONFIG_PORTAL_FILENAME, "w");
       
@@ -1374,7 +1406,7 @@ class ESP_WiFiManager_Lite
     
     //////////////////////////////////////////////
     
-    void setForcedCP(bool isPersistent)
+    void setForcedCP(const bool& isPersistent)
     {
       uint32_t readForcedConfigPortalFlag = isPersistent? FORCED_PERS_CONFIG_PORTAL_FLAG_DATA : FORCED_CONFIG_PORTAL_FLAG_DATA;
   
@@ -1476,6 +1508,7 @@ class ESP_WiFiManager_Lite
       // We dont like to destroy myMenuItems[i].pdata with invalid data
       
       uint16_t maxBufferLength = 0;
+      
       for (uint16_t i = 0; i < NUM_MENU_ITEMS; i++)
       {       
         if (myMenuItems[i].maxlen > maxBufferLength)
@@ -1976,7 +2009,7 @@ class ESP_WiFiManager_Lite
 
     //////////////////////////////////////////////
     
-    void setForcedCP(bool isPersistent)
+    void setForcedCP(const bool& isPersistent)
     {
       uint32_t readForcedConfigPortalFlag = isPersistent? FORCED_PERS_CONFIG_PORTAL_FLAG_DATA : FORCED_CONFIG_PORTAL_FLAG_DATA;
     
@@ -2573,7 +2606,10 @@ class ESP_WiFiManager_Lite
             result.replace("[[pw]]",     ESP_WM_LITE_config.WiFi_Creds[0].wifi_pw);
             result.replace("[[id1]]",    ESP_WM_LITE_config.WiFi_Creds[1].wifi_ssid);
             result.replace("[[pw1]]",    ESP_WM_LITE_config.WiFi_Creds[1].wifi_pw);
+            
+#if USING_BOARD_NAME            
             result.replace("[[nm]]",     ESP_WM_LITE_config.board_name);
+#endif            
           }
           else
           {
@@ -2581,7 +2617,10 @@ class ESP_WiFiManager_Lite
             result.replace("[[pw]]",  "");
             result.replace("[[id1]]", "");
             result.replace("[[pw1]]", "");
+            
+#if USING_BOARD_NAME            
             result.replace("[[nm]]",  "");
+#endif            
           }
           
 #if USE_DYNAMIC_PARAMETERS          
@@ -2633,7 +2672,10 @@ class ESP_WiFiManager_Lite
         static bool pw_Updated  = false;
         static bool id1_Updated = false;
         static bool pw1_Updated = false;
+        
+#if USING_BOARD_NAME         
         static bool nm_Updated  = false;
+#endif 
           
         if (!id_Updated && (key == String("id")))
         {   
@@ -2683,18 +2725,19 @@ class ESP_WiFiManager_Lite
           else
             strncpy(ESP_WM_LITE_config.WiFi_Creds[1].wifi_pw, value.c_str(), sizeof(ESP_WM_LITE_config.WiFi_Creds[1].wifi_pw) - 1);
         }
+#if USING_BOARD_NAME        
         else if (!nm_Updated && (key == String("nm")))
         {
           ESP_WML_LOGDEBUG(F("h:repl nm"));
           nm_Updated = true;
           
           number_items_Updated++;
-          
           if (strlen(value.c_str()) < sizeof(ESP_WM_LITE_config.board_name) - 1)
             strcpy(ESP_WM_LITE_config.board_name, value.c_str());
           else
             strncpy(ESP_WM_LITE_config.board_name, value.c_str(), sizeof(ESP_WM_LITE_config.board_name) - 1);
-        }
+        }    
+#endif        
         
 #if USE_DYNAMIC_PARAMETERS   
         else
@@ -2870,7 +2913,7 @@ class ESP_WiFiManager_Lite
 
     //////////////////////////////////////////
 	
-	  void setMinimumSignalQuality(int quality)
+	  void setMinimumSignalQuality(const int& quality)
 	  {
 	    _minimumQuality = quality;
 	  }
@@ -2878,7 +2921,7 @@ class ESP_WiFiManager_Lite
 	  //////////////////////////////////////////
 
 	  //if this is true, remove duplicate Access Points - default true
-	  void setRemoveDuplicateAPs(bool removeDuplicates)
+	  void setRemoveDuplicateAPs(const bool& removeDuplicates)
 	  {
 	    _removeDuplicateAPs = removeDuplicates;
 	  }
@@ -2998,7 +3041,7 @@ class ESP_WiFiManager_Lite
 
 	  //////////////////////////////////////////
 
-	  int getRSSIasQuality(int RSSI)
+	  int getRSSIasQuality(const int& RSSI)
 	  {
 	    int quality = 0;
 
