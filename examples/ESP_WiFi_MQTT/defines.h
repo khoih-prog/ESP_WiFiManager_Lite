@@ -56,6 +56,10 @@
   // For core v1.0.6-, ESP32-C3 only supporting SPIFFS and EEPROM. To use v2.0.0+ for LittleFS
   #define USE_LITTLEFS          false
   #define USE_SPIFFS            true
+#else
+  // For ESP8266, and other boards
+  #define USE_LITTLEFS    true
+  #define USE_SPIFFS      false  
 #endif
 
 /////////////////////////////////////////////
