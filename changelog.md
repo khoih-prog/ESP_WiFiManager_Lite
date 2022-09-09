@@ -31,7 +31,7 @@
 
 ## Changelog
 
-### Releases v1.9.0
+### Release v1.9.0
 
 1. Fix ESP32 chipID. Check [Help for storing variables in memory (non-volatile) #87](https://github.com/khoih-prog/ESP_WiFiManager/discussions/87#discussioncomment-3593028)
 2. Add ESP32 getChipID() and getChipOUI() functions
