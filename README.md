@@ -14,6 +14,8 @@
 
 ## Table of Contents
 
+* [Important Change from v1.9.0](#Important-Change-from-v190)
+  * [For v1.9.0 and up](#For-v190-and-up)
 * [Why do we need this ESP_WiFiManager_Lite library](#why-do-we-need-this-esp_wifimanager_lite-library)
   * [Features](#features)
   * [Currently supported Boards](#currently-supported-boards)
@@ -101,6 +103,24 @@
 ---
 ---
 
+### Important Change from v1.9.0
+
+#### For v1.9.0 and up
+
+ESP32 `chipID` is now correct and unique. The previous releases' 32-bit wrong `chipID` is mainly the 24-bit `Organizational Unique Identifier` (OUI) plus 8 bits from the correct chipID. That's why `ESP_getChipId()` function can return duplicated values if the boards are from the same batch.
+
+For example
+
+```
+Chip_ID_64 : 0x98F4AB085288
+chipOUI    : 0x98F4AB
+chipId     : 0x85288
+getEfuseMac: 0x885208ABF498
+```
+
+---
+---
+
 ### Why do we need this [ESP_WiFiManager_Lite library](https://github.com/khoih-prog/ESP_WiFiManager_Lite)
 
 #### Features
@@ -149,11 +169,11 @@ This [**ESP_WiFiManager_Lite** library](https://github.com/khoih-prog/ESP_WiFiMa
 ## Prerequisites
 
  1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
- 2. [`ESP32 Core 2.0.2+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
+ 2. [`ESP32 Core 2.0.4+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
  3. [`ESP8266 Core 3.0.2+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/). SPIFFS is deprecated from ESP8266 core 2.7.1+, to use LittleFS. 
- 4. [`ESP_DoubleResetDetector v1.3.0+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) if using DRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
- 5. [`ESP_MultiResetDetector v1.3.0+`](https://github.com/khoih-prog/ESP_MultiResetDetector) if using MRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_MultiResetDetector.svg?)](https://www.ardu-badge.com/ESP_MultiResetDetector).
- 6. [`LittleFS_esp32 v1.0.6+`](https://github.com/lorol/LITTLEFS) for ESP32-based boards using LittleFS with ESP32 core v1.0.4-. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/LittleFS_esp32.svg?)](https://www.ardu-badge.com/LittleFS_esp32). **Notice**: This [`LittleFS_esp32 library`](https://github.com/lorol/LITTLEFS) has been integrated to Arduino [ESP32 core v1.0.6+](https://github.com/espressif/arduino-esp32/tree/master/libraries/LITTLEFS) and you don't need to install it if using ESP32 core v1.0.6+
+ 4. [`ESP_DoubleResetDetector v1.3.1+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) if using DRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
+ 5. [`ESP_MultiResetDetector v1.3.1+`](https://github.com/khoih-prog/ESP_MultiResetDetector) if using MRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_MultiResetDetector.svg?)](https://www.ardu-badge.com/ESP_MultiResetDetector).
+ 6. [`LittleFS_esp32 v1.0.6+`](https://github.com/lorol/LITTLEFS) for ESP32-based boards using LittleFS with ESP32 core **v1.0.5-**. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/LittleFS_esp32.svg?)](https://www.ardu-badge.com/LittleFS_esp32). **Notice**: This [`LittleFS_esp32 library`](https://github.com/lorol/LITTLEFS) has been integrated to Arduino [ESP32 core v1.0.6+](https://github.com/espressif/arduino-esp32/tree/master/libraries/LITTLEFS) and **you don't need to install it if using ESP32 core v1.0.6+**
 
 ---
 
@@ -795,454 +815,28 @@ Please take a look at other examples, as well.
 
 #### 1. File [ESP_WiFi.ino](examples/ESP_WiFi/ESP_WiFi.ino)
 
-```cpp
-#include "defines.h"
-#include "Credentials.h"
-#include "dynamicParams.h"
+https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/bc8fb7ed5159e78f4cba35e07bf8cb18a7925320/examples/ESP_WiFi/ESP_WiFi.ino#L13-L156
 
-ESP_WiFiManager_Lite* ESP_WiFiManager;
 
-void heartBeatPrint()
-{
-  static int num = 1;
-
-  if (WiFi.status() == WL_CONNECTED)
-    Serial.print("H");        // H means connected to WiFi
-  else
-  {
-    if (ESP_WiFiManager->isConfigMode())
-      Serial.print("C");        // C means in Config Mode
-    else
-      Serial.print("F");        // F means not connected to WiFi  
-  }
-
-  if (num == 80)
-  {
-    Serial.println();
-    num = 1;
-  }
-  else if (num++ % 10 == 0)
-  {
-    Serial.print(F(" "));
-  }
-}
-
-void check_status()
-{
-  static unsigned long checkstatus_timeout = 0;
-
-  //KH
-#define HEARTBEAT_INTERVAL    20000L
-  // Print hearbeat every HEARTBEAT_INTERVAL (20) seconds.
-  if ((millis() > checkstatus_timeout) || (checkstatus_timeout == 0))
-  {
-    heartBeatPrint();
-    checkstatus_timeout = millis() + HEARTBEAT_INTERVAL;
-  }
-}
-
-#if USING_CUSTOMS_STYLE
-const char NewCustomsStyle[] /*PROGMEM*/ = "<style>div,input{padding:5px;font-size:1em;}input{width:95%;}body{text-align: center;}\
-button{background-color:blue;color:white;line-height:2.4rem;font-size:1.2rem;width:100%;}fieldset{border-radius:0.3rem;margin:0px;}</style>";
-#endif
-
-void setup()
-{
-  // Debug console
-  Serial.begin(115200);
-  while (!Serial);
-
-  delay(200);
-
-  Serial.print(F("\nStarting ESP_WiFi using ")); Serial.print(FS_Name);
-  Serial.print(F(" on ")); Serial.println(ARDUINO_BOARD);
-  Serial.println(ESP_WIFI_MANAGER_LITE_VERSION);
-
-#if USING_MRD  
-  Serial.println(ESP_MULTI_RESET_DETECTOR_VERSION);
-#else
-  Serial.println(ESP_DOUBLE_RESET_DETECTOR_VERSION);
-#endif
-
-  ESP_WiFiManager = new ESP_WiFiManager_Lite();
-
-  String AP_SSID = "your_customized_ssid";
-  String AP_PWD  = "your_customized_pwd";
-  
-  // Set customized AP SSID and PWD
-  ESP_WiFiManager->setConfigPortal(AP_SSID, AP_PWD);
-
-  // Optional to change default AP IP(192.168.4.1) and channel(10)
-  //ESP_WiFiManager->setConfigPortalIP(IPAddress(192, 168, 120, 1));
-  ESP_WiFiManager->setConfigPortalChannel(0);
-
-#if USING_CUSTOMS_STYLE
-  ESP_WiFiManager->setCustomsStyle(NewCustomsStyle);
-#endif
-
-#if USING_CUSTOMS_HEAD_ELEMENT
-  ESP_WiFiManager->setCustomsHeadElement("<style>html{filter: invert(10%);}</style>");
-#endif
-
-#if USING_CORS_FEATURE  
-  ESP_WiFiManager->setCORSHeader("Your Access-Control-Allow-Origin");
-#endif
-
-  // Set customized DHCP HostName
-  ESP_WiFiManager->begin(HOST_NAME);
-  //Or use default Hostname "ESP32-WIFI-XXXXXX"
-  //ESP_WiFiManager->begin();
-}
-
-#if USE_DYNAMIC_PARAMETERS
-void displayCredentials()
-{
-  Serial.println(F("\nYour stored Credentials :"));
-
-  for (uint16_t i = 0; i < NUM_MENU_ITEMS; i++)
-  {
-    Serial.print(myMenuItems[i].displayName);
-    Serial.print(F(" = "));
-    Serial.println(myMenuItems[i].pdata);
-  }
-}
-
-void displayCredentialsInLoop()
-{
-  static bool displayedCredentials = false;
-
-  if (!displayedCredentials)
-  {
-    for (int i = 0; i < NUM_MENU_ITEMS; i++)
-    {
-      if (!strlen(myMenuItems[i].pdata))
-      {
-        break;
-      }
-
-      if ( i == (NUM_MENU_ITEMS - 1) )
-      {
-        displayedCredentials = true;
-        displayCredentials();
-      }
-    }
-  }
-}
-
-#endif
-
-void loop()
-{
-  ESP_WiFiManager->run();
-  check_status();
-
-#if USE_DYNAMIC_PARAMETERS
-  displayCredentialsInLoop();
-#endif
-}
-```
 ---
 
 #### 2. File [defines.h](examples/ESP_WiFi/defines.h)
 
-```cpp
-#ifndef defines_h
-#define defines_h
+https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/bc8fb7ed5159e78f4cba35e07bf8cb18a7925320/examples/ESP_WiFi/defines.h#L13-L150
 
-#if !( ESP8266 || ESP32)
-  #error This code is intended to run only on the ESP8266/ESP32 boards ! Please check your Tools->Board setting.
-#endif
-
-/* Comment this out to disable prints and save space */
-#define ESP_WM_LITE_DEBUG_OUTPUT      Serial
-
-#define _ESP_WM_LITE_LOGLEVEL_        2
-
-#define USING_MRD                     true
-
-#if USING_MRD
-  #define MULTIRESETDETECTOR_DEBUG      true
-  
-  // Number of seconds after reset during which a
-  // subseqent reset will be considered a double reset.
-  #define MRD_TIMEOUT                   10
-  
-  // RTC Memory Address for the DoubleResetDetector to use
-  #define MRD_ADDRESS                   0
-
-  #if (_ESP_WM_LITE_LOGLEVEL_ > 3)
-    #warning Using MULTI_RESETDETECTOR
-  #endif
-#else
-  #define DOUBLERESETDETECTOR_DEBUG     true
-  
-  // Number of seconds after reset during which a
-  // subseqent reset will be considered a double reset.
-  #define DRD_TIMEOUT                   10
-  
-  // RTC Memory Address for the DoubleResetDetector to use
-  #define DRD_ADDRESS                   0
-
-  #if (_ESP_WM_LITE_LOGLEVEL_ > 3)
-    #warning Using DOUBLE_RESETDETECTOR
-  #endif
-#endif
-
-/////////////////////////////////////////////
-
-// LittleFS has higher priority than SPIFFS
-#if ( defined(ESP_ARDUINO_VERSION_MAJOR) && (ESP_ARDUINO_VERSION_MAJOR >= 2) )
-  #define USE_LITTLEFS    true
-  #define USE_SPIFFS      false
-#elif defined(ARDUINO_ESP32C3_DEV)
-  // For core v1.0.6-, ESP32-C3 only supporting SPIFFS and EEPROM. To use v2.0.0+ for LittleFS
-  #define USE_LITTLEFS          false
-  #define USE_SPIFFS            true
-#endif
-
-/////////////////////////////////////////////
-
-// Add customs headers from v1.2.0
-#define USING_CUSTOMS_STYLE           true
-#define USING_CUSTOMS_HEAD_ELEMENT    true
-#define USING_CORS_FEATURE            true
-
-/////////////////////////////////////////////
-
-// Force some params
-#define TIMEOUT_RECONNECT_WIFI                    10000L
-
-// Permit running CONFIG_TIMEOUT_RETRYTIMES_BEFORE_RESET times before reset hardware
-// to permit user another chance to config. Only if Config Data is valid.
-// If Config Data is invalid, this has no effect as Config Portal will persist
-#define RESET_IF_CONFIG_TIMEOUT                   true
-
-// Permitted range of user-defined CONFIG_TIMEOUT_RETRYTIMES_BEFORE_RESET between 2-100
-#define CONFIG_TIMEOUT_RETRYTIMES_BEFORE_RESET    5
-
-// Config Timeout 120s (default 60s). Applicable only if Config Data is Valid
-#define CONFIG_TIMEOUT                            120000L
-
-/////////////////////////////////////////////
-
-// Permit input only one set of WiFi SSID/PWD. The other can be "NULL or "blank"
-// Default is false (if not defined) => must input 2 sets of SSID/PWD
-#define REQUIRE_ONE_SET_SSID_PW               true    //false
-
-// Max times to try WiFi per loop() iteration. To avoid blocking issue in loop()
-// Default 1 if not defined, and minimum 1.
-#define MAX_NUM_WIFI_RECON_TRIES_PER_LOOP     2
-
-// Default no interval between recon WiFi if lost
-// Max permitted interval will be 10mins
-// Uncomment to use. Be careful, WiFi reconnect will be delayed if using this method
-// Only use whenever urgent tasks in loop() can't be delayed. But if so, it's better you have to rewrite your code, e.g. using higher priority tasks.
-//#define WIFI_RECON_INTERVAL                   30000
-
-/////////////////////////////////////////////
-
-// Permit reset hardware if no WiFi to permit user another chance to access Config Portal.
-#define RESET_IF_NO_WIFI              false
-
-/////////////////////////////////////////////
-
-#define USE_DYNAMIC_PARAMETERS        true
-
-/////////////////////////////////////////////
-
-#define SCAN_WIFI_NETWORKS                  true
-
-// To be able to manually input SSID, not from a scanned SSID lists
-#define MANUAL_SSID_INPUT_ALLOWED           true
-
-// From 2-15
-  #define MAX_SSID_IN_LIST                  8
-  
-/////////////////////////////////////////////
-
-// Optional, to use Board Name in Menu
-#define USING_BOARD_NAME                    true
-
-/////////////////////////////////////////////
-
-#include <ESP_WiFiManager_Lite.h>
-
-#if ESP8266 
-  #define HOST_NAME   "ESP8266-Controller"
-#else
-  #define HOST_NAME   "ESP32-Controller"
-#endif
-
-#ifdef LED_BUILTIN
-  #define LED_PIN     LED_BUILTIN
-#else
-  #define LED_PIN     13
-#endif
-
-#endif      //defines_h
-```
 ---
 
 #### 3. File [Credentials.h](examples/ESP_WiFi/Credentials.h)
 
-```cpp
-#ifndef Credentials_h
-#define Credentials_h
-
-#include "defines.h"
-
-/// Start Default Config Data //////////////////
-
-/*
-#define SSID_MAX_LEN      32
-//From v1.0.3, WPA2 passwords can be up to 63 characters long.
-#define PASS_MAX_LEN      64
-
-typedef struct
-{
-  char wifi_ssid[SSID_MAX_LEN];
-  char wifi_pw  [PASS_MAX_LEN];
-}  WiFi_Credentials;
-
-#define NUM_WIFI_CREDENTIALS      2
-
-// Configurable items besides fixed Header, just add board_name 
-#define NUM_CONFIGURABLE_ITEMS    ( ( 2 * NUM_WIFI_CREDENTIALS ) + 1 )
-////////////////
-
-typedef struct Configuration
-{
-  char header         [16];
-  WiFi_Credentials  WiFi_Creds  [NUM_WIFI_CREDENTIALS];
-  char board_name     [24];
-  int  checkSum;
-} ESP_WM_LITE_Configuration;
-*/
-
-#define TO_LOAD_DEFAULT_CONFIG_DATA      false
-
-#if TO_LOAD_DEFAULT_CONFIG_DATA
-
-// This feature is primarily used in development to force a known set of values as Config Data
-// It will NOT force the Config Portal to activate. Use DRD or erase Config Data with ESP_WiFiManager.clearConfigData()
-
-// Used mostly for development and debugging. FORCES default values to be loaded each run.
-// Config Portal data input will be ignored and overridden by DEFAULT_CONFIG_DATA
-//bool LOAD_DEFAULT_CONFIG_DATA = true;
-
-// Used mostly once debugged. Assumes good data already saved in device.
-// Config Portal data input will be override DEFAULT_CONFIG_DATA
-bool LOAD_DEFAULT_CONFIG_DATA = false;
+https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/bc8fb7ed5159e78f4cba35e07bf8cb18a7925320/examples/ESP_WiFi/Credentials.h#L13-L100
 
 
-ESP_WM_LITE_Configuration defaultConfig =
-{
-  //char header[16], dummy, not used
-#if ESP8266 
-  "ESP8266",
-#else
-  "ESP32",
-#endif
-
-  // WiFi_Credentials  WiFi_Creds  [NUM_WIFI_CREDENTIALS];
-  // WiFi_Credentials.wifi_ssid and WiFi_Credentials.wifi_pw
-  "SSID1",  "password1",
-  "SSID2",  "password2",
-  //char board_name     [24];
-
-#if ESP8266 
-  "ESP8266-Control",
-#else
-  "ESP32-Control",
-#endif
-
-  // terminate the list
-  //int  checkSum, dummy, not used
-  0
-  /////////// End Default Config Data /////////////
-};
-
-#else
-
-bool LOAD_DEFAULT_CONFIG_DATA = false;
-
-ESP_WM_LITE_Configuration defaultConfig;
-
-#endif    // TO_LOAD_DEFAULT_CONFIG_DATA
-
-/////////// End Default Config Data /////////////
-
-
-#endif    //Credentials_h
-```
 ---
 
 #### 4. File [dynamicParams.h](examples/ESP_WiFi/dynamicParams.h)
 
-```cpp
-#ifndef dynamicParams_h
-#define dynamicParams_h
+https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/bc8fb7ed5159e78f4cba35e07bf8cb18a7925320/examples/ESP_WiFi/dynamicParams.h#L13-L74
 
-#include "defines.h"
-
-// USE_DYNAMIC_PARAMETERS defined in defined.h
-
-/////////////// Start dynamic Credentials ///////////////
-
-//Defined in <ESP_WiFiManager_Lite.h>
-/**************************************
-  #define MAX_ID_LEN                5
-  #define MAX_DISPLAY_NAME_LEN      16
-
-  typedef struct
-  {
-  char id             [MAX_ID_LEN + 1];
-  char displayName    [MAX_DISPLAY_NAME_LEN + 1];
-  char *pdata;
-  uint8_t maxlen;
-  } MenuItem;
-**************************************/
-
-#if USE_DYNAMIC_PARAMETERS
-
-#define MAX_BLYNK_SERVER_LEN      34
-#define MAX_BLYNK_TOKEN_LEN       34
-
-char Blynk_Server1 [MAX_BLYNK_SERVER_LEN + 1]  = "account.duckdns.org";
-char Blynk_Token1  [MAX_BLYNK_TOKEN_LEN + 1]   = "token1";
-
-char Blynk_Server2 [MAX_BLYNK_SERVER_LEN + 1]  = "account.ddns.net";
-char Blynk_Token2  [MAX_BLYNK_TOKEN_LEN + 1]   = "token2";
-
-#define MAX_BLYNK_PORT_LEN        6
-char Blynk_Port   [MAX_BLYNK_PORT_LEN + 1]  = "8080";
-
-#define MAX_MQTT_SERVER_LEN      34
-char MQTT_Server  [MAX_MQTT_SERVER_LEN + 1]   = "mqtt.duckdns.org";
-
-MenuItem myMenuItems [] =
-{
-  { "sv1", "Blynk Server1", Blynk_Server1,  MAX_BLYNK_SERVER_LEN },
-  { "tk1", "Token1",        Blynk_Token1,   MAX_BLYNK_TOKEN_LEN },
-  { "sv2", "Blynk Server2", Blynk_Server2,  MAX_BLYNK_SERVER_LEN },
-  { "tk2", "Token2",        Blynk_Token2,   MAX_BLYNK_TOKEN_LEN },
-  { "prt", "Port",          Blynk_Port,     MAX_BLYNK_PORT_LEN },
-  { "mqt", "MQTT Server",   MQTT_Server,    MAX_MQTT_SERVER_LEN },
-};
-
-uint16_t NUM_MENU_ITEMS = sizeof(myMenuItems) / sizeof(MenuItem);  //MenuItemSize;
-
-#else
-
-MenuItem myMenuItems [] = {};
-
-uint16_t NUM_MENU_ITEMS = 0;
-
-#endif    //USE_DYNAMIC_PARAMETERS
-
-
-#endif      //dynamicParams_h
-```
 ---
 ---
 
@@ -1257,8 +851,8 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
 lowerBytes = 0x0003, upperBytes = 0x0003
@@ -1328,8 +922,8 @@ CCCCCCCCC
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1400,8 +994,8 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1475,8 +1069,8 @@ CCC
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1567,8 +1161,8 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1680,8 +1274,8 @@ entry 0x4004c190
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1782,8 +1376,8 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
 lowerBytes = 0x0003, upperBytes = 0x0003
@@ -1810,8 +1404,8 @@ NNNN NNNNN NNNNN NNNNN NN[WML] h:UpdLittleFS
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1866,8 +1460,8 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
 lowerBytes = 0x0003, upperBytes = 0x0003
@@ -1910,8 +1504,8 @@ CCC
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -1958,8 +1552,8 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32S3_DEV
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -2000,8 +1594,8 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32C3_DEV
-ESP_WiFiManager_Lite v1.8.2
-ESP_MultiResetDetector v1.3.0
+ESP_WiFiManager_Lite v1.9.0
+ESP_MultiResetDetector v1.3.1
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
 lowerBytes = 0x0001, upperBytes = 0x0001
@@ -2113,6 +1707,9 @@ Submit issues to: [ESP_WiFiManager_Lite issues](https://github.com/khoih-prog/ES
 31. Optimize code by passing by `reference` instead of `value`
 32. Optional `Board_Name` in Config Portal
 33. Add function `isConfigMode()` to signal system is in Config Portal mode
+34. Fix ESP32 chipID
+35. Add ESP32 getChipID() and getChipOUI() functions
+
 
 ---
 ---

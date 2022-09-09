@@ -44,6 +44,14 @@ setCORSHeader   KEYWORD2
 getCORSHeader   KEYWORD2
 
 #######################################
+
+getChipID	KEYWORD2
+getChipOUI	KEYWORD2
+
+ESP_getChipId	KEYWORD2
+ESP_getChipOUI	KEYWORD2
+
+#######################################
 # Constants (LITERAL1)
 #######################################
 
