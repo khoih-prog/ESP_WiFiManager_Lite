@@ -8,6 +8,8 @@
 
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
+<a href="https://profile-counter.glitch.me/khoih-prog/count.svg" title="Total khoih-prog Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog/count.svg" style="height: 30px;width: 200px;"></a>
+<a href="https://profile-counter.glitch.me/khoih-prog-ESP_WiFiManager_Lite/count.svg" title="ESP_WiFiManager_Lite Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog-ESP_WiFiManager_Lite/count.svg" style="height: 30px;width: 200px;"></a>
 
 ---
 ---
@@ -169,10 +171,10 @@ This [**ESP_WiFiManager_Lite** library](https://github.com/khoih-prog/ESP_WiFiMa
 ## Prerequisites
 
  1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
- 2. [`ESP32 Core 2.0.4+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
+ 2. [`ESP32 Core 2.0.5+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
  3. [`ESP8266 Core 3.0.2+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/). SPIFFS is deprecated from ESP8266 core 2.7.1+, to use LittleFS. 
- 4. [`ESP_DoubleResetDetector v1.3.1+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) if using DRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
- 5. [`ESP_MultiResetDetector v1.3.1+`](https://github.com/khoih-prog/ESP_MultiResetDetector) if using MRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_MultiResetDetector.svg?)](https://www.ardu-badge.com/ESP_MultiResetDetector).
+ 4. [`ESP_DoubleResetDetector v1.3.2+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) if using DRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
+ 5. [`ESP_MultiResetDetector v1.3.2+`](https://github.com/khoih-prog/ESP_MultiResetDetector) if using MRD feature. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_MultiResetDetector.svg?)](https://www.ardu-badge.com/ESP_MultiResetDetector).
  6. [`LittleFS_esp32 v1.0.6+`](https://github.com/lorol/LITTLEFS) for ESP32-based boards using LittleFS with ESP32 core **v1.0.5-**. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/LittleFS_esp32.svg?)](https://www.ardu-badge.com/LittleFS_esp32). **Notice**: This [`LittleFS_esp32 library`](https://github.com/lorol/LITTLEFS) has been integrated to Arduino [ESP32 core v1.0.6+](https://github.com/espressif/arduino-esp32/tree/master/libraries/LITTLEFS) and **you don't need to install it if using ESP32 core v1.0.6+**
 
 ---
@@ -214,13 +216,13 @@ In Platform IO, to fix the error when using [`LittleFS_esp32 v1.0`](https://gith
 
 from
 
-```
+```cpp
 //#define CONFIG_LITTLEFS_FOR_IDF_3_2   /* For old IDF - like in release 1.0.4 */
 ```
 
 to
 
-```
+```cpp
 #define CONFIG_LITTLEFS_FOR_IDF_3_2   /* For old IDF - like in release 1.0.4 */
 ```
 
@@ -305,7 +307,7 @@ ESP_WiFiManager_Lite* ESP_WiFiManager;
 
 - To add custom parameters, just add
 
-```
+```cpp
 #include "defines.h"
 
 // USE_DYNAMIC_PARAMETERS defined in defined.h
@@ -369,7 +371,7 @@ uint16_t NUM_MENU_ITEMS = 0;
 
 - If you don't need to add dynamic parameters, use the following in sketch
 
-```
+```cpp
 #define USE_DYNAMIC_PARAMETERS      false
 ```
 
@@ -408,21 +410,21 @@ ESP_WiFiManager->setConfigPortalIP(IPAddress(xxx,xxx,xxx,xxx));
 
 - To set custom DHCP HostName :
  
-```
+```cpp
 // Set customized DHCP HostName
 ESP_WiFiManager->begin("ESP32-WIFI_ABCDEF");
 ```
  
 or just use the default Hostname, for example "ESP_ABCDEF"
 
-```
+```cpp
 //Or use default Hostname "ESPC_ABCDEF"
 ESP_WiFiManager->begin();
 ```
 
 #### 8. To use custom HTML Style
 
-```
+```cpp
 const char NewCustomsStyle[] /*PROGMEM*/ = "<style>div,input{padding:5px;font-size:1em;}input{width:95%;}body{text-align: center;}\
 button{background-color:blue;color:white;line-height:2.4rem;font-size:1.2rem;width:100%;}fieldset{border-radius:0.3rem;margin:0px;}</style>";
 
@@ -434,13 +436,13 @@ ESP_WiFiManager->setCustomsStyle(NewCustomsStyle);
 #### 9. To use custom Head Elements
 
 
-```
+```cpp
 ESP_WiFiManager->setCustomsHeadElement("<style>html{filter: invert(10%);}</style>");
 ```
 
 #### 10. To use CORS Header
 
-```
+```cpp
 ESP_WiFiManager->setCORSHeader("Your Access-Control-Allow-Origin");
 ```
 
@@ -455,7 +457,7 @@ Once Credentials / WiFi network information is saved in the host non-volatile me
 
 #### 11.1 If you need to use and input only one set of WiFi SSID/PWD
 
-```
+```cpp
 // Permit input only one set of WiFi SSID/PWD. The other can be "NULL or "blank"
 // Default is false (if not defined) => must input 2 sets of SSID/PWD
 #define REQUIRE_ONE_SET_SSID_PW       true
@@ -464,7 +466,7 @@ But it's always advisable to use and input both sets for reliability.
  
 #### 11.2 If you need to use both sets of WiFi SSID/PWD
 
-```
+```cpp
 // Permit input only one set of WiFi SSID/PWD. The other can be "NULL or "blank"
 // Default is false (if not defined) => must input 2 sets of SSID/PWD
 #define REQUIRE_ONE_SET_SSID_PW       false
@@ -475,7 +477,7 @@ But it's always advisable to use and input both sets for reliability.
 #### 12.1 Enable auto-scan of WiFi networks for selection in Configuration Portal
 
 
-```
+```cpp
 #define SCAN_WIFI_NETWORKS                  true
 ```
 
@@ -483,7 +485,7 @@ The manual input of SSIDs is default enabled, so that users can input arbitrary 
 
 #### 12.2 Disable manually input SSIDs
 
-```
+```cpp
 // To disable manually input SSID, only from a scanned SSID lists
 #define MANUAL_SSID_INPUT_ALLOWED           false
 ```
@@ -495,7 +497,7 @@ This is for normal use-cases in which users can only select an SSID from a scann
 The maximum number of SSIDs in the list is seletable from 2 to 15. If invalid number of SSIDs is selected, the default number of 10 will be used.
 
 
-```
+```cpp
 // From 2-15
 #define MAX_SSID_IN_LIST                    8
 ```
@@ -512,7 +514,7 @@ To use, uncomment in `defines.h`.
 
 Check [retries block the main loop #18](https://github.com/khoih-prog/WiFiManager_NINA_Lite/issues/18#issue-1094004380)
 
-```
+```cpp
 #define MAX_NUM_WIFI_RECON_TRIES_PER_LOOP     2
 ```
 
@@ -526,7 +528,7 @@ Only use whenever urgent tasks in loop() can't be delayed. But if so, it's bette
 
 Check [retries block the main loop #18](https://github.com/khoih-prog/WiFiManager_NINA_Lite/issues/18#issuecomment-1006197561)
 
-```
+```cpp
 #define WIFI_RECON_INTERVAL                   30000     // 30s
 ```
 
@@ -608,7 +610,7 @@ See this example and modify as necessary
 
 #### 1. To always load [Default Credentials](examples//Credentials.h) and override Config Portal data
 
-```
+```cpp
 // Used mostly for development and debugging. FORCES default values to be loaded each run.
 // Config Portal data input will be ignored and overridden by DEFAULT_CONFIG_DATA
 bool LOAD_DEFAULT_CONFIG_DATA = true;
@@ -618,7 +620,7 @@ bool LOAD_DEFAULT_CONFIG_DATA = true;
 
 Config Portal data input will be override DEFAULT_CONFIG_DATA
 
-```
+```cpp
 // Used mostly once debugged. Assumes good data already saved in device.
 // Config Portal data input will be override DEFAULT_CONFIG_DATA
 bool LOAD_DEFAULT_CONFIG_DATA = false;
@@ -715,7 +717,7 @@ Example of [Default dynamicParams](examples/ESP_WiFi/dynamicParams.h)
 
 - To add custom parameters, just modify the example below
 
-```
+```cpp
 #include "defines.h"
 
 // USE_DYNAMIC_PARAMETERS defined in defined.h
@@ -776,13 +778,13 @@ uint16_t NUM_MENU_ITEMS = 0;
 ```
 - If you don't need to add dynamic parameters, use the following in sketch
 
-```
+```cpp
 #define USE_DYNAMIC_PARAMETERS     false
 ```
 
 or
 
-```
+```cpp
 /////////////// Start dynamic Credentials ///////////////
 
 MenuItem myMenuItems [] = {};
