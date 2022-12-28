@@ -1155,7 +1155,6 @@ class ESP_WiFiManager_Lite
       setForcedCP(false);
 
       // Delay then reset the ESP8266 after save data
-      delay(1000);
       resetFunc();
     }
 
@@ -1169,7 +1168,6 @@ class ESP_WiFiManager_Lite
       setForcedCP(true);
 
       // Delay then reset the ESP8266 after save data
-      delay(1000);
       resetFunc();
     }
 
@@ -2528,11 +2526,7 @@ class ESP_WiFiManager_Lite
         drd->loop();
 #endif
 
-#if ESP8266
-        ESP.reset();
-#else
-        ESP.restart();
-#endif
+        resetFunc();
 
 #endif
       }
@@ -2912,8 +2906,7 @@ class ESP_WiFiManager_Lite
 
           // TO DO : what command to reset
           // Delay then reset the board after save data
-          delay(1000);
-          resetFunc();  //call reset
+          resetFunc();
         }
       }   // if (server)
     }
