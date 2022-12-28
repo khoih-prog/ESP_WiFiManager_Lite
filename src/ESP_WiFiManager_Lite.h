@@ -963,7 +963,7 @@ class ESP_WiFiManager_Lite
 
         if (server)
         {
-          server->end();
+          server->stop();
           delete server;
           server = nullptr;
         }
