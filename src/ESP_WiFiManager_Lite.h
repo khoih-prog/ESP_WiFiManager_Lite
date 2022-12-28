@@ -163,6 +163,8 @@
 
 #endif
 
+#define DNS_PORT      53
+
 #include <DNSServer.h>
 #include <memory>
 #undef min
@@ -533,6 +535,11 @@ class ESP_WiFiManager_Lite
 
     ~ESP_WiFiManager_Lite()
     {
+      if (dnsServer)
+      {
+        delete dnsServer;
+      }
+
       if (server)
       {
         delete server;
@@ -811,7 +818,7 @@ class ESP_WiFiManager_Lite
 
 #if USING_MRD
       //// New MRD ////
-      // Call the mulyi reset detector loop method every so often,
+      // Call the multi reset detector loop method every so often,
       // so that it can recognise when the timeout expires.
       // You can also call mrd.stop() when you wish to no longer
       // consider the next reset as a multi reset.
@@ -826,6 +833,11 @@ class ESP_WiFiManager_Lite
       drd->loop();
       //// New DRD ////
 #endif
+
+      if (configuration_mode && dnsServer)
+      {
+        dnsServer->processNextRequest();
+      }
 
       if ( !configuration_mode && (curMillis > checkstatus_timeout) )
       {
@@ -936,10 +948,25 @@ class ESP_WiFiManager_Lite
       }
       else if (configuration_mode)
       {
+        // WiFi is connected and we are in configuration_mode
         configuration_mode = false;
         ESP_WML_LOGINFO(F("run: got WiFi back"));
         // turn the LED_BUILTIN OFF to tell us we exit configuration mode.
         digitalWrite(LED_BUILTIN, LED_OFF);
+
+        if (dnsServer)
+        {
+          dnsServer->stop();
+          delete dnsServer;
+          dnsServer = nullptr;
+        }
+
+        if (server)
+        {
+          server->end();
+          delete server;
+          server = nullptr;
+        }
       }
     }
 
@@ -1249,12 +1276,14 @@ class ESP_WiFiManager_Lite
 
     //KH, for ESP32
 #ifdef ESP8266
-    ESP8266WebServer *server = NULL;
+    ESP8266WebServer *server = nullptr;
     ESP8266WiFiMulti wifiMulti;
 #else   //ESP32
-    WebServer *server = NULL;
+    WebServer *server = nullptr;
     WiFiMulti wifiMulti;
 #endif
+
+    DNSServer *dnsServer = nullptr;
 
     bool configuration_mode = false;
 
@@ -2963,9 +2992,6 @@ class ESP_WiFiManager_Lite
 
       delay(100); // ref: https://github.com/espressif/arduino-esp32/issues/985#issuecomment-359157428
 
-      // Move up for ESP8266
-      //WiFi.softAPConfig(portal_apIP, portal_apIP, IPAddress(255, 255, 255, 0));
-
       if (!server)
       {
 #if ESP8266
@@ -2975,10 +3001,20 @@ class ESP_WiFiManager_Lite
 #endif
       }
 
-      //See https://stackoverflow.com/questions/39803135/c-unresolved-overloaded-function-type?rq=1
-      if (server)
+      if (!dnsServer)
       {
-        server->on("/", [this]()
+        dnsServer = new DNSServer();
+      }
+
+      //See https://stackoverflow.com/questions/39803135/c-unresolved-overloaded-function-type?rq=1
+      if (server && dnsServer)
+      {
+        // CaptivePortal
+        // if DNSServer is started with "*" for domain name, it will reply with provided IP to all DNS requests
+        dnsServer->start(DNS_PORT, "*", portal_apIP);
+        
+        // reply to all requests with same HTML
+        server->onNotFound([this]()
         {
           handleRequest();
         });
