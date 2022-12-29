@@ -969,7 +969,7 @@ class ESP_WiFiManager_Lite
           dnsServer->stop();
           delete dnsServer;
           dnsServer = nullptr;
-        }
+      }
 
         if (server)
         {
