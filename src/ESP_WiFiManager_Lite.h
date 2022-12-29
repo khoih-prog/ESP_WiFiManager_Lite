@@ -1278,6 +1278,47 @@ class ESP_WiFiManager_Lite
 
     //////////////////////////////////////
 
+#if USE_DYNAMIC_PARAMETERS
+
+    bool extLoadDynamicData()
+    {
+  #if ESP8266
+      // SPIFFS and LittleFS do auto-format if not yet
+      if (!FileFS.begin())
+  #else
+      // Format SPIFFS if not yet
+      if (!FileFS.begin(true))
+  #endif
+      {
+        ESP_WML_LOGERROR(F("SPIFFS/LittleFS failed!"));
+        return false;
+      }
+
+      return loadDynamicData();
+    }
+
+    //////////////////////////////////////////////
+
+    void extSaveDynamicData()
+    {
+  #if ESP8266
+      // SPIFFS and LittleFS do auto-format if not yet
+      if (!FileFS.begin())
+  #else
+      // Format SPIFFS if not yet
+      if (!FileFS.begin(true))
+  #endif
+      {
+        ESP_WML_LOGERROR(F("SPIFFS/LittleFS failed!"));
+        return;
+      }
+
+      saveDynamicData();
+    }
+
+#endif
+
+    //////////////////////////////////////
 
   private:
     String ipAddress = "0.0.0.0";
@@ -1297,6 +1338,7 @@ class ESP_WiFiManager_Lite
 
     unsigned long configTimeout;
     bool hadConfigData = false;
+    bool hadDynamicData = false;
 
     bool isForcedConfigPortal   = false;
     bool persForcedConfigPortal = false;
@@ -1682,6 +1724,11 @@ class ESP_WiFiManager_Lite
 
     bool loadDynamicData()
     {
+      if (hadDynamicData)
+      {
+        return true;
+      }
+
       int checkSum = 0;
       int readCheckSum;
       totalDataSize = sizeof(ESP_WM_LITE_config) + sizeof(readCheckSum);
@@ -1734,6 +1781,7 @@ class ESP_WiFiManager_Lite
         return false;
       }
 
+      hadDynamicData = true;
       return true;
     }
 
