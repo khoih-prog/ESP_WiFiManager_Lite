@@ -962,14 +962,14 @@ class ESP_WiFiManager_Lite
 #if USE_LED_BUILTIN
         // turn the LED_BUILTIN OFF to tell us we exit configuration mode.
         digitalWrite(LED_BUILTIN, LED_OFF);
-  #endif
+#endif
 
         if (dnsServer)
         {
           dnsServer->stop();
           delete dnsServer;
           dnsServer = nullptr;
-      }
+        }
 
         if (server)
         {
