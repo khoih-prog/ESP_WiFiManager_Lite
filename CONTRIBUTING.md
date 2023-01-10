@@ -10,12 +10,14 @@ However, before reporting a bug please check through the following:
 
 If you don't find anything, please [open a new issue](https://github.com/khoih-prog/ESP_WiFiManager_Lite/issues/new).
 
+---
+
 ### How to submit a bug report
 
 Please ensure to specify the following:
 
 * Arduino IDE version (e.g. 1.8.19) or Platform.io version
-* `ESP8266` or `ESP32` Core Version (e.g. ESP8266 core v3.0.2 or ESP32 v2.0.5)
+* `ESP8266` or `ESP32` Core Version (e.g. ESP8266 core v3.1.0 or ESP32 v2.0.6)
 * Contextual information (e.g. what you were trying to achieve)
 * Simplest possible steps to reproduce
 * Anything that might be relevant in your opinion, such as:
@@ -23,13 +25,18 @@ Please ensure to specify the following:
   * Network configuration
 
 
+Please be educated, civilized and constructive as you've always been. Disrespective posts against [GitHub Code of Conduct](https://docs.github.com/en/site-policy/github-terms/github-event-code-of-conduct) will be ignored and deleted.
+
+---
+
 ### Example
 
 ```
 Arduino IDE version: 1.8.19
-ESP8266 Core Version 3.0.2
+ESP32_DEV board
+ESP32 core v2.0.6
 OS: Ubuntu 20.04 LTS
-Linux xy-Inspiron-3593 5.15.0-52-generic #58~20.04.1-Ubuntu SMP Thu Oct 13 13:09:46 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+Linux xy-Inspiron-3593 5.15.0-57-generic #63~20.04.1-Ubuntu SMP Wed Nov 30 13:40:16 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
 I encountered a crash while trying to use the library

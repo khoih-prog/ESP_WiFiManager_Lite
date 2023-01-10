@@ -34,6 +34,12 @@
 
 ## Changelog
 
+### Release v1.10.0
+
+1. Add Captive-Portal feature. Check [Captive portal #24](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/24)
+2. Add option to not `USE_LED_BUILTIN` for Config-Portal. Check [added switch to turn use of builtin LED off #20](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/20)
+3. Code clean-up
+
 ### Release v1.9.0
 
 1. Fix ESP32 chipID. Check [Help for storing variables in memory (non-volatile) #87](https://github.com/khoih-prog/ESP_WiFiManager/discussions/87#discussioncomment-3593028)
