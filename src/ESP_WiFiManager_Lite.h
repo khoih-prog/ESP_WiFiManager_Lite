@@ -9,23 +9,16 @@
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
 
-  Version: 1.9.0
+  Version: 1.10.0
 
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
   1.0.0   K Hoang      04/02/2021  Initial coding for ESP32/ESP8266
-  1.1.0   K Hoang      12/02/2021  Add support to new ESP32-S2
-  1.2.0   K Hoang      22/02/2021  Add customs HTML header feature. Fix bug.
-  1.3.0   K Hoang      12/04/2021  Fix invalid "blank" Config Data treated as Valid. Fix EEPROM_SIZE bug
-  1.4.0   K Hoang      21/04/2021  Add support to new ESP32-C3 using SPIFFS or EEPROM
-  1.5.0   Michael H    24/04/2021  Enable scan of WiFi networks for selection in Configuration Portal
-  1.5.1   K Hoang      10/10/2021  Update `platform.ini` and `library.json`
-  1.6.0   K Hoang      26/11/2021  Auto detect ESP32 core and use either built-in LittleFS or LITTLEFS library. Fix bug.
-  1.7.0   K Hoang      08/01/2022  Fix the blocking issue in loop() with configurable WIFI_RECON_INTERVAL
-  1.8.0   K Hoang      10/02/2022  Add support to new ESP32-S3
+  ...
   1.8.1   K Hoang      11/02/2022  Add LittleFS support to ESP32-C3. Use core LittleFS instead of Lorol's LITTLEFS for v2.0.0+
   1.8.2   K Hoang      21/02/2022  Optional Board_Name in Menu. Optimize code by using passing by reference
   1.9.0   K Hoang      09/09/2022  Fix ESP32 chipID and add ESP_getChipOUI()
+  1.10.0  K Hoang      10/01/2023  Add Captive-Portal feature
  *****************************************************************************************************************************/
 
 #pragma once
@@ -56,13 +49,13 @@
 #endif
 
 #ifndef ESP_WIFI_MANAGER_LITE_VERSION
-  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.9.0"
+  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.10.0"
 
   #define ESP_WIFI_MANAGER_LITE_VERSION_MAJOR       1
-  #define ESP_WIFI_MANAGER_LITE_VERSION_MINOR       9
+  #define ESP_WIFI_MANAGER_LITE_VERSION_MINOR       10
   #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       0
 
-  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1009000
+  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1010000
 #endif
 
 #ifdef ESP8266
