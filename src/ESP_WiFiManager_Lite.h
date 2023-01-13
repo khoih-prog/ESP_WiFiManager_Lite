@@ -9,7 +9,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
 
-  Version: 1.10.0
+  Version: 1.10.1
 
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
@@ -19,6 +19,7 @@
   1.8.2   K Hoang      21/02/2022  Optional Board_Name in Menu. Optimize code by using passing by reference
   1.9.0   K Hoang      09/09/2022  Fix ESP32 chipID and add ESP_getChipOUI()
   1.10.0  K Hoang      10/01/2023  Add Captive-Portal feature
+  1.10.1  K Hoang      12/01/2023  Added public methods to load and save dynamic data
  *****************************************************************************************************************************/
 
 #pragma once
@@ -49,13 +50,13 @@
 #endif
 
 #ifndef ESP_WIFI_MANAGER_LITE_VERSION
-  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.10.0"
+  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.10.1"
 
   #define ESP_WIFI_MANAGER_LITE_VERSION_MAJOR       1
   #define ESP_WIFI_MANAGER_LITE_VERSION_MINOR       10
-  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       0
+  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       1
 
-  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1010000
+  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1010001
 #endif
 
 #ifdef ESP8266

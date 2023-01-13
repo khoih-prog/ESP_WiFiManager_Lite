@@ -15,6 +15,8 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Release v1.10.1](#release-v1101)
+  * [Release v1.10.0](#release-v1100)
   * [Release v1.9.0](#release-v190)
   * [Release v1.8.2](#release-v182)
   * [Release v1.8.1](#release-v181)
@@ -33,6 +35,10 @@
 ---
 
 ## Changelog
+
+### Release v1.10.1
+
+1. Add public methods to load and save dynamic data. Check [added public methods to load and save dynamic data #28](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/28)
 
 ### Release v1.10.0
 
