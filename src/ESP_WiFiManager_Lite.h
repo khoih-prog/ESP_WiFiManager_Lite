@@ -400,7 +400,7 @@ extern ESP_WM_LITE_Configuration defaultConfig;
 
 // -- HTML page fragments
 
-const char ESP_WM_LITE_HTML_HEAD_START[] /*PROGMEM*/ = "<!DOCTYPE html><html><head><title>ESP_WM_LITE</title>";
+const char ESP_WM_LITE_HTML_HEAD_START[] /*PROGMEM*/ = "<!DOCTYPE html><html><head><title>ESP_WM_LITE</title><meta name='viewport' content='width=device-width, initial-scale=1'>";
 
 const char ESP_WM_LITE_HTML_HEAD_STYLE[] /*PROGMEM*/ =
   "<style>div,input{padding:5px;font-size:1em;}input{width:95%;}body{text-align: center;}button{background-color:#16A1E7;color:#fff;line-height:2.4rem;font-size:1.2rem;width:100%;}fieldset{border-radius:0.3rem;margin:0px;}</style>";
