@@ -31,6 +31,8 @@ A clear and concise description of what you expected to happen.
 
 If applicable, add screenshots to help explain your problem.
 
+---
+
 ### Information
 
 Please ensure to specify the following:
@@ -43,7 +45,6 @@ Please ensure to specify the following:
   * Operating system (Windows, Ubuntu, etc.) and the output of `uname -a`
   * Network configuration
 
-
 Please be educated, civilized and constructive as you've always been. Disrespective posts against [GitHub Code of Conduct](https://docs.github.com/en/site-policy/github-terms/github-event-code-of-conduct) will be ignored and deleted.
 
 ---
@@ -52,10 +53,9 @@ Please be educated, civilized and constructive as you've always been. Disrespect
 
 ```
 Arduino IDE version: 1.8.19
-ESP32_DEV board
-ESP32 core v2.0.6
+ESP8266 Core Version 3.1.0
 OS: Ubuntu 20.04 LTS
-Linux xy-Inspiron-3593 5.15.0-57-generic #63~20.04.1-Ubuntu SMP Wed Nov 30 13:40:16 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+Linux xy-Inspiron-3593 5.15.0-58-generic #64~20.04.1-Ubuntu SMP Fri Jan 6 16:42:31 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
 I encountered a crash while trying to use the library
