@@ -9,7 +9,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
 
-  Version: 1.10.1
+  Version: 1.10.2
 
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
@@ -20,6 +20,7 @@
   1.9.0   K Hoang      09/09/2022  Fix ESP32 chipID and add ESP_getChipOUI()
   1.10.0  K Hoang      10/01/2023  Add Captive-Portal feature
   1.10.1  K Hoang      12/01/2023  Added public methods to load and save dynamic data
+  1.10.2  K Hoang      15/01/2023  Add Config Portal scaling support to mobile devices
  *****************************************************************************************************************************/
 
 #ifndef ESP_WiFiManager_Lite_Debug_h
