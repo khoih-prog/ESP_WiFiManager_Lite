@@ -2612,18 +2612,18 @@ class ESP_WiFiManager_Lite
     {
       String pitem;
 
-      root_html_template  = FPSTR(ESP_WM_LITE_HTML_HEAD_START);
+      root_html_template = FPSTR(ESP_WM_LITE_HTML_HEAD_START);
 
 #if USING_CUSTOMS_STYLE
 
       // Using Customs style when not NULL
       if (ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE)
-        root_html_template  += ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE;
+        root_html_template += FPSTR(ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE);
       else
-        root_html_template  += ESP_WM_LITE_HTML_HEAD_STYLE;
+        root_html_template += FPSTR(ESP_WM_LITE_HTML_HEAD_STYLE);
 
 #else
-      root_html_template  += ESP_WM_LITE_HTML_HEAD_STYLE;
+      root_html_template += FPSTR(ESP_WM_LITE_HTML_HEAD_STYLE);
 #endif
 
 #if USING_CUSTOMS_HEAD_ELEMENT
@@ -2657,11 +2657,11 @@ class ESP_WiFiManager_Lite
       pitem = String(FPSTR(ESP_WM_LITE_HTML_HEAD_END));
 
 #if MANUAL_SSID_INPUT_ALLOWED
-      pitem.replace("[[input_id]]",  "<input id='id' list='SSIDs'>"  + String(ESP_WM_LITE_DATALIST_START) + "'SSIDs'>" +
-                    ListOfSSIDs + ESP_WM_LITE_DATALIST_END);
+      pitem.replace("[[input_id]]",  "<input id='id' list='SSIDs'>"  + String(FPSTR(ESP_WM_LITE_DATALIST_START)) + "'SSIDs'>" +
+                    ListOfSSIDs + FPSTR(ESP_WM_LITE_DATALIST_END));
       ESP_WML_LOGDEBUG1(F("pitem:"), pitem);
-      pitem.replace("[[input_id1]]", "<input id='id1' list='SSIDs'>" + String(ESP_WM_LITE_DATALIST_START) + "'SSIDs'>" +
-                    ListOfSSIDs + ESP_WM_LITE_DATALIST_END);
+      pitem.replace("[[input_id1]]", "<input id='id1' list='SSIDs'>" + String(FPSTR(ESP_WM_LITE_DATALIST_START)) + "'SSIDs'>" +
+                    ListOfSSIDs + FPSTR(ESP_WM_LITE_DATALIST_END));
       ESP_WML_LOGDEBUG1(F("pitem:"), pitem);
 #else
       pitem.replace("[[input_id]]",  "<select id='id'>"  + ListOfSSIDs + FPSTR(ESP_WM_LITE_SELECT_END));
@@ -2673,9 +2673,9 @@ class ESP_WiFiManager_Lite
 #else
 
       pitem = String(FPSTR(ESP_WM_LITE_HTML_HEAD_END));
-      pitem.replace("[[input_id]]",  ESP_WM_LITE_HTML_INPUT_ID);
-      pitem.replace("[[input_id1]]", ESP_WM_LITE_HTML_INPUT_ID1);
-      root_html_template += pitem + ESP_WM_LITE_FLDSET_START;
+      pitem.replace("[[input_id]]",  FPSTR(ESP_WM_LITE_HTML_INPUT_ID));
+      pitem.replace("[[input_id1]]", FPSTR(ESP_WM_LITE_HTML_INPUT_ID1));
+      root_html_template += pitem + FPSTR(ESP_WM_LITE_FLDSET_START);
 
 #endif    // SCAN_WIFI_NETWORKS
 
@@ -2683,7 +2683,7 @@ class ESP_WiFiManager_Lite
 
       for (uint16_t i = 0; i < NUM_MENU_ITEMS; i++)
       {
-        pitem = String(ESP_WM_LITE_HTML_PARAM);
+        pitem = String(FPSTR(ESP_WM_LITE_HTML_PARAM));
 
         pitem.replace("{b}", myMenuItems[i].displayName);
         pitem.replace("{v}", myMenuItems[i].id);
@@ -2694,13 +2694,13 @@ class ESP_WiFiManager_Lite
 
 #endif
 
-      root_html_template += String(ESP_WM_LITE_FLDSET_END) + ESP_WM_LITE_HTML_BUTTON + ESP_WM_LITE_HTML_SCRIPT;
+      root_html_template += String(FPSTR(ESP_WM_LITE_FLDSET_END)) + FPSTR(ESP_WM_LITE_HTML_BUTTON) + FPSTR(ESP_WM_LITE_HTML_SCRIPT);
 
 #if USE_DYNAMIC_PARAMETERS
 
       for (uint16_t i = 0; i < NUM_MENU_ITEMS; i++)
       {
-        pitem = String(ESP_WM_LITE_HTML_SCRIPT_ITEM);
+        pitem = String(FPSTR(ESP_WM_LITE_HTML_SCRIPT_ITEM));
 
         pitem.replace("{d}", myMenuItems[i].id);
 
@@ -2709,7 +2709,7 @@ class ESP_WiFiManager_Lite
 
 #endif
 
-      root_html_template += String(ESP_WM_LITE_HTML_SCRIPT_END) + ESP_WM_LITE_HTML_END;
+      root_html_template += String(FPSTR(ESP_WM_LITE_HTML_SCRIPT_END)) + FPSTR(ESP_WM_LITE_HTML_END;
 
       return;
     }
@@ -2718,20 +2718,20 @@ class ESP_WiFiManager_Lite
 
     void serverSendHeaders()
     {
-      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_CACHE_CONTROL:"), WM_HTTP_CACHE_CONTROL, " : ", WM_HTTP_NO_STORE);
-      server->sendHeader(WM_HTTP_CACHE_CONTROL, WM_HTTP_NO_STORE);
+      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_CACHE_CONTROL:"), FPSTR(WM_HTTP_CACHE_CONTROL), " : ", FPSTR(WM_HTTP_NO_STORE));
+      server->sendHeader(FPSTR(WM_HTTP_CACHE_CONTROL), FPSTR(WM_HTTP_NO_STORE));
 
 #if USING_CORS_FEATURE
       // New from v1.2.0, for configure CORS Header, default to WM_HTTP_CORS_ALLOW_ALL = "*"
-      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_CORS:"), WM_HTTP_CORS, " : ", _CORS_Header);
-      server->sendHeader(WM_HTTP_CORS, _CORS_Header);
+      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_CORS:"), FPSTR(WM_HTTP_CORS), " : ", FPSTR(_CORS_Header));
+      server->sendHeader(FPSTR(WM_HTTP_CORS), FPSTR(_CORS_Header));
 #endif
 
-      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_PRAGMA:"), WM_HTTP_PRAGMA, " : ", WM_HTTP_NO_CACHE);
-      server->sendHeader(WM_HTTP_PRAGMA, WM_HTTP_NO_CACHE);
+      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_PRAGMA:"), FPSTR(WM_HTTP_PRAGMA), " : ", FPSTR(WM_HTTP_NO_CACHE));
+      server->sendHeader(FPSTR(WM_HTTP_PRAGMA), FPSTR(WM_HTTP_NO_CACHE));
 
-      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_EXPIRES:"), WM_HTTP_EXPIRES, " : ", "-1");
-      server->sendHeader(WM_HTTP_EXPIRES, "-1");
+      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_EXPIRES:"), FPSTR(WM_HTTP_EXPIRES), " : ", "-1");
+      server->sendHeader(FPSTR(WM_HTTP_EXPIRES), "-1");
     }
 
     //////////////////////////////////////////////
@@ -2806,7 +2806,7 @@ class ESP_WiFiManager_Lite
           ESP_WML_LOGDEBUG1(F("h:HTML page size:"), result.length());
           ESP_WML_LOGDEBUG1(F("h:HTML="), result);
 
-          server->send(200, WM_HTTP_HEAD_TEXT_HTML, result);
+          server->send(200, FPSTR(WM_HTTP_HEAD_TEXT_HTML), result);
 
           return;
         }
@@ -2949,7 +2949,7 @@ class ESP_WiFiManager_Lite
         ESP_WML_LOGDEBUG1(F("h:items updated ="), number_items_Updated);
         ESP_WML_LOGDEBUG3(F("h:key ="), key, ", value =", value);
 
-        server->send(200, WM_HTTP_HEAD_TEXT_HTML, "OK");
+        server->send(200, FPSTR(WM_HTTP_HEAD_TEXT_HTML), "OK");
 
 #if USE_DYNAMIC_PARAMETERS
 
