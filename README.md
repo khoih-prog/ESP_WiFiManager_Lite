@@ -319,10 +319,10 @@ ESP_WiFiManager_Lite* ESP_WiFiManager;
 
   typedef struct
   {
-  char id             [MAX_ID_LEN + 1];
-  char displayName    [MAX_DISPLAY_NAME_LEN + 1];
-  char *pdata;
-  uint8_t maxlen;
+    char id             [MAX_ID_LEN + 1];
+    char displayName    [MAX_DISPLAY_NAME_LEN + 1];
+    char *pdata;
+    uint8_t maxlen;
   } MenuItem;
 **************************************/
 
@@ -851,7 +851,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -922,7 +922,7 @@ CCCCCCCCC
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -994,7 +994,7 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1069,7 +1069,7 @@ CCC
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1161,7 +1161,7 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1274,7 +1274,7 @@ entry 0x4004c190
 
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1376,7 +1376,7 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -1404,7 +1404,7 @@ NNNN NNNNN NNNNN NNNNN NN[WML] h:UpdLittleFS
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1460,7 +1460,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -1504,7 +1504,7 @@ CCC
 
 ```
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1552,7 +1552,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32S3_DEV
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1594,7 +1594,7 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 ```
 Starting ESP_WiFi using LittleFS on ESP32C3_DEV
-ESP_WiFiManager_Lite v1.10.2
+ESP_WiFiManager_Lite v1.10.3
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1724,12 +1724,13 @@ Please help contribute to this project and add your name here.
 
 1. Thanks to [Michael H. "bizprof"](https://github.com/bizprof). With the impressive new feature :
   - `Enable scan of WiFi networks for selection in Configuration Portal`. Check [PR for v1.3.0 - Enable scan of WiFi networks #10](https://github.com/khoih-prog/WiFiManager_NINA_Lite/pull/10) leading to `v1.5.0 `
-2. Thanks to [Holger Müller](https://github.com/hmueller01)for these PRs leading to `v1.10.0`, `v1.10.1` and `v1.10.2` :
+2. Thanks to [Holger Müller](https://github.com/hmueller01) for creating the following merged PRs leading to many new versions
   - [Captive portal #24](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/24)
   - [reset cleanup #21](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/21)
   - [added switch to turn use of builtin LED off #20](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/20)
   - [added public methods to load and save dynamic data #28](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/28)
   - [Mobile scale #30](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/30)
+  - [fix compiler error if EEPROM is used #33](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/33)
     
 <table>
   <tr>

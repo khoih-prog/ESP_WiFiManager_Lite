@@ -15,6 +15,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Release v1.10.3](#release-v1103)
   * [Release v1.10.2](#release-v1102)
   * [Release v1.10.1](#release-v1101)
   * [Release v1.10.0](#release-v1100)
@@ -36,6 +37,10 @@
 ---
 
 ## Changelog
+
+### Release v1.10.3
+
+1. Fix compiler error if EEPROM is used. Check [fix compiler error if EEPROM is used #29](https://github.com/khoih-prog/ESPAsync_WiFiManager_Lite/pull/29)
 
 ### Release v1.10.2
 
