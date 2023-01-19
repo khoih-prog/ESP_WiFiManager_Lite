@@ -40,7 +40,7 @@
 
 ### Release v1.10.3
 
-1. Fix compiler error if EEPROM is used. Check [fix compiler error if EEPROM is used #29](https://github.com/khoih-prog/ESPAsync_WiFiManager_Lite/pull/29)
+1. Fix compiler error if EEPROM is used. Check [fix compiler error if EEPROM is used #33](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/33)
 
 ### Release v1.10.2
 
