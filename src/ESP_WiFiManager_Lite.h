@@ -9,7 +9,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
 
-  Version: 1.10.1
+  Version: 1.10.3
 
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
@@ -20,6 +20,8 @@
   1.9.0   K Hoang      09/09/2022  Fix ESP32 chipID and add ESP_getChipOUI()
   1.10.0  K Hoang      10/01/2023  Add Captive-Portal feature
   1.10.1  K Hoang      12/01/2023  Added public methods to load and save dynamic data
+  1.10.2  K Hoang      15/01/2023  Add Config Portal scaling support to mobile devices
+  1.10.3  K Hoang      19/01/2023  Fix compiler error if EEPROM is used
  *****************************************************************************************************************************/
 
 #pragma once
@@ -50,13 +52,13 @@
 #endif
 
 #ifndef ESP_WIFI_MANAGER_LITE_VERSION
-  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.10.1"
+  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.10.3"
 
   #define ESP_WIFI_MANAGER_LITE_VERSION_MAJOR       1
   #define ESP_WIFI_MANAGER_LITE_VERSION_MINOR       10
-  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       1
+  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       3
 
-  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1010001
+  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1010003
 #endif
 
 #ifdef ESP8266
@@ -1276,6 +1278,8 @@ class ESP_WiFiManager_Lite
 
     bool extLoadDynamicData()
     {
+#if ( USE_LITTLEFS || USE_SPIFFS )
+
   #if ESP8266
       // SPIFFS and LittleFS do auto-format if not yet
       if (!FileFS.begin())
@@ -1289,12 +1293,20 @@ class ESP_WiFiManager_Lite
       }
 
       return loadDynamicData();
+
+#else   // #if ( USE_LITTLEFS || USE_SPIFFS )
+
+      return EEPROM_getDynamicData();
+
+#endif   // #if ( USE_LITTLEFS || USE_SPIFFS )
     }
 
     //////////////////////////////////////////////
 
     void extSaveDynamicData()
     {
+#if ( USE_LITTLEFS || USE_SPIFFS )
+
   #if ESP8266
       // SPIFFS and LittleFS do auto-format if not yet
       if (!FileFS.begin())
@@ -1308,6 +1320,12 @@ class ESP_WiFiManager_Lite
       }
 
       saveDynamicData();
+
+#else   // #if ( USE_LITTLEFS || USE_SPIFFS )
+
+      EEPROM_putDynamicData();
+
+#endif   // #if ( USE_LITTLEFS || USE_SPIFFS )
     }
 
 #endif

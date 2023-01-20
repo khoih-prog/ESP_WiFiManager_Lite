@@ -15,6 +15,8 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Release v1.10.3](#release-v1103)
+  * [Release v1.10.2](#release-v1102)
   * [Release v1.10.1](#release-v1101)
   * [Release v1.10.0](#release-v1100)
   * [Release v1.9.0](#release-v190)
@@ -35,6 +37,14 @@
 ---
 
 ## Changelog
+
+### Release v1.10.3
+
+1. Fix compiler error if EEPROM is used. Check [fix compiler error if EEPROM is used #33](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/33)
+
+### Release v1.10.2
+
+1. Add Config Portal scaling support to mobile devices. Check [Mobile scale #30](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/30)
 
 ### Release v1.10.1
 
