@@ -402,13 +402,13 @@ extern ESP_WM_LITE_Configuration defaultConfig;
 
 // -- HTML page fragments
 
-const char ESP_WM_LITE_HTML_HEAD_START[] /*PROGMEM*/ = "<!DOCTYPE html><html><head><title>ESP_WM_LITE</title><meta name='viewport' content='width=device-width, initial-scale=1'>";
+const char ESP_WM_LITE_HTML_HEAD_START[] PROGMEM = "<!DOCTYPE html><html><head><title>ESP_WM_LITE</title><meta name='viewport' content='width=device-width, initial-scale=1'>";
 
-const char ESP_WM_LITE_HTML_HEAD_STYLE[] /*PROGMEM*/ =
+const char ESP_WM_LITE_HTML_HEAD_STYLE[] PROGMEM =
   "<style>div,input{padding:5px;font-size:1em;}input{width:95%;}body{text-align: center;}button{background-color:#16A1E7;color:#fff;line-height:2.4rem;font-size:1.2rem;width:100%;}fieldset{border-radius:0.3rem;margin:0px;}</style>";
 
 #if USING_BOARD_NAME
-  const char ESP_WM_LITE_HTML_HEAD_END[]   /*PROGMEM*/ =
+  const char ESP_WM_LITE_HTML_HEAD_END[]   PROGMEM =
   "</head><div style='text-align:left;display:inline-block;min-width:260px;'>\
   <fieldset><div><label>*WiFi SSID</label><div>[[input_id]]</div></div>\
   <div><label>*PWD (8+ chars)</label><input value='[[pw]]' id='pw'><div></div></div>\
@@ -416,7 +416,7 @@ const char ESP_WM_LITE_HTML_HEAD_STYLE[] /*PROGMEM*/ =
   <div><label>*PWD1 (8+ chars)</label><input value='[[pw1]]' id='pw1'><div></div></div></fieldset>\
   <fieldset><div><label>Board Name</label><input value='[[nm]]' id='nm'><div></div></div></fieldset>";	// DO NOT CHANGE THIS STRING EVER!!!!
 #else
-  const char ESP_WM_LITE_HTML_HEAD_END[]   /*PROGMEM*/ =
+  const char ESP_WM_LITE_HTML_HEAD_END[]   PROGMEM =
   "</head><div style='text-align:left;display:inline-block;min-width:260px;'>\
   <fieldset><div><label>*WiFi SSID</label><div>[[input_id]]</div></div>\
   <div><label>*PWD (8+ chars)</label><input value='[[pw]]' id='pw'><div></div></div>\
@@ -424,59 +424,59 @@ const char ESP_WM_LITE_HTML_HEAD_STYLE[] /*PROGMEM*/ =
   <div><label>*PWD1 (8+ chars)</label><input value='[[pw1]]' id='pw1'><div></div></div></fieldset>";	// DO NOT CHANGE THIS STRING EVER!!!!
 #endif
 
-const char ESP_WM_LITE_HTML_INPUT_ID[]   /*PROGMEM*/ = "<input value='[[id]]' id='id'>";
-const char ESP_WM_LITE_HTML_INPUT_ID1[]  /*PROGMEM*/ = "<input value='[[id1]]' id='id1'>";
+const char ESP_WM_LITE_HTML_INPUT_ID[]   PROGMEM = "<input value='[[id]]' id='id'>";
+const char ESP_WM_LITE_HTML_INPUT_ID1[]  PROGMEM = "<input value='[[id1]]' id='id1'>";
 
-const char ESP_WM_LITE_FLDSET_START[]  /*PROGMEM*/ = "<fieldset>";
-const char ESP_WM_LITE_FLDSET_END[]    /*PROGMEM*/ = "</fieldset>";
-const char ESP_WM_LITE_HTML_PARAM[]    /*PROGMEM*/ =
+const char ESP_WM_LITE_FLDSET_START[]  PROGMEM = "<fieldset>";
+const char ESP_WM_LITE_FLDSET_END[]    PROGMEM = "</fieldset>";
+const char ESP_WM_LITE_HTML_PARAM[]    PROGMEM =
   "<div><label>{b}</label><input value='[[{v}]]'id='{i}'><div></div></div>";
-const char ESP_WM_LITE_HTML_BUTTON[]   /*PROGMEM*/ = "<button onclick=\"sv()\">Save</button></div>";
+const char ESP_WM_LITE_HTML_BUTTON[]   PROGMEM = "<button onclick=\"sv()\">Save</button></div>";
 
 #if USING_BOARD_NAME
-  const char ESP_WM_LITE_HTML_SCRIPT[]   /*PROGMEM*/ = "<script id=\"jsbin-javascript\">\
+  const char ESP_WM_LITE_HTML_SCRIPT[]   PROGMEM = "<script id=\"jsbin-javascript\">\
   function udVal(key,val){var request=new XMLHttpRequest();var url='/?key='+key+'&value='+encodeURIComponent(val);\
   request.open('GET',url,false);request.send(null);}\
   function sv(){udVal('id',document.getElementById('id').value);udVal('pw',document.getElementById('pw').value);\
   udVal('id1',document.getElementById('id1').value);udVal('pw1',document.getElementById('pw1').value);\
   udVal('nm',document.getElementById('nm').value);";
 #else
-  const char ESP_WM_LITE_HTML_SCRIPT[]   /*PROGMEM*/ = "<script id=\"jsbin-javascript\">\
+  const char ESP_WM_LITE_HTML_SCRIPT[]   PROGMEM = "<script id=\"jsbin-javascript\">\
   function udVal(key,val){var request=new XMLHttpRequest();var url='/?key='+key+'&value='+encodeURIComponent(val);\
   request.open('GET',url,false);request.send(null);}\
   function sv(){udVal('id',document.getElementById('id').value);udVal('pw',document.getElementById('pw').value);\
   udVal('id1',document.getElementById('id1').value);udVal('pw1',document.getElementById('pw1').value);";
 #endif
 
-const char ESP_WM_LITE_HTML_SCRIPT_ITEM[]  /*PROGMEM*/ = "udVal('{d}',document.getElementById('{d}').value);";
-const char ESP_WM_LITE_HTML_SCRIPT_END[]   /*PROGMEM*/ = "alert('Updated');}</script>";
-const char ESP_WM_LITE_HTML_END[]          /*PROGMEM*/ = "</html>";
+const char ESP_WM_LITE_HTML_SCRIPT_ITEM[]  PROGMEM = "udVal('{d}',document.getElementById('{d}').value);";
+const char ESP_WM_LITE_HTML_SCRIPT_END[]   PROGMEM = "alert('Updated');}</script>";
+const char ESP_WM_LITE_HTML_END[]          PROGMEM = "</html>";
 
 #if SCAN_WIFI_NETWORKS
-  const char ESP_WM_LITE_SELECT_START[]      /*PROGMEM*/ = "<select id=";
-  const char ESP_WM_LITE_SELECT_END[]        /*PROGMEM*/ = "</select>";
-  const char ESP_WM_LITE_DATALIST_START[]    /*PROGMEM*/ = "<datalist id=";
-  const char ESP_WM_LITE_DATALIST_END[]      /*PROGMEM*/ = "</datalist>";
-  const char ESP_WM_LITE_OPTION_START[]      /*PROGMEM*/ = "<option>";
-  const char ESP_WM_LITE_OPTION_END[]        /*PROGMEM*/ = "";      // "</option>"; is not required
-  const char ESP_WM_LITE_NO_NETWORKS_FOUND[] /*PROGMEM*/ = "No suitable WiFi networks available!";
+  const char ESP_WM_LITE_SELECT_START[]      PROGMEM = "<select id=";
+  const char ESP_WM_LITE_SELECT_END[]        PROGMEM = "</select>";
+  const char ESP_WM_LITE_DATALIST_START[]    PROGMEM = "<datalist id=";
+  const char ESP_WM_LITE_DATALIST_END[]      PROGMEM = "</datalist>";
+  const char ESP_WM_LITE_OPTION_START[]      PROGMEM = "<option>";
+  const char ESP_WM_LITE_OPTION_END[]        PROGMEM = "";      // "</option>"; is not required
+  const char ESP_WM_LITE_NO_NETWORKS_FOUND[] PROGMEM = "No suitable WiFi networks available!";
 #endif
 
 //////////////////////////////////////////
 
 //KH Add repeatedly used const
 //KH, from v1.2.0
-const char WM_HTTP_HEAD_CL[]         /*PROGMEM*/ = "Content-Length";
-const char WM_HTTP_HEAD_TEXT_HTML[]  /*PROGMEM*/ = "text/html";
-const char WM_HTTP_HEAD_TEXT_PLAIN[] /*PROGMEM*/ = "text/plain";
+const char WM_HTTP_HEAD_CL[]         PROGMEM = "Content-Length";
+const char WM_HTTP_HEAD_TEXT_HTML[]  PROGMEM = "text/html";
+const char WM_HTTP_HEAD_TEXT_PLAIN[] PROGMEM = "text/plain";
 
-const char WM_HTTP_CACHE_CONTROL[]   /*PROGMEM*/ = "Cache-Control";
-const char WM_HTTP_NO_STORE[]        /*PROGMEM*/ = "no-cache, no-store, must-revalidate";
-const char WM_HTTP_PRAGMA[]          /*PROGMEM*/ = "Pragma";
-const char WM_HTTP_NO_CACHE[]        /*PROGMEM*/ = "no-cache";
-const char WM_HTTP_EXPIRES[]         /*PROGMEM*/ = "Expires";
-const char WM_HTTP_CORS[]            /*PROGMEM*/ = "Access-Control-Allow-Origin";
-const char WM_HTTP_CORS_ALLOW_ALL[]  /*PROGMEM*/ = "*";
+const char WM_HTTP_CACHE_CONTROL[]   PROGMEM = "Cache-Control";
+const char WM_HTTP_NO_STORE[]        PROGMEM = "no-cache, no-store, must-revalidate";
+const char WM_HTTP_PRAGMA[]          PROGMEM = "Pragma";
+const char WM_HTTP_NO_CACHE[]        PROGMEM = "no-cache";
+const char WM_HTTP_EXPIRES[]         PROGMEM = "Expires";
+const char WM_HTTP_CORS[]            PROGMEM = "Access-Control-Allow-Origin";
+const char WM_HTTP_CORS_ALLOW_ALL[]  PROGMEM = "*";
 
 //////////////////////////////////////////
 
@@ -1219,17 +1219,17 @@ class ESP_WiFiManager_Lite
     // input{width:95%;}body{text-align: center;}
     // button{background-color:#16A1E7;color:#fff;line-height:2.4rem;font-size:1.2rem;width:100%;}
     // fieldset{border-radius:0.3rem;margin:0px;}</style>";
-    void setCustomsStyle(const char* CustomsStyle = ESP_WM_LITE_HTML_HEAD_STYLE)
+    void setCustomsStyle(PGM_P CustomsStyle = ESP_WM_LITE_HTML_HEAD_STYLE)
     {
       ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE = CustomsStyle;
-      ESP_WML_LOGDEBUG1(F("Set CustomsStyle to : "), ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE);
+      ESP_WML_LOGDEBUG1(F("Set CustomsStyle to : "), FPSTR(ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE));
     }
 
     //////////////////////////////////////
 
-    const char* getCustomsStyle()
+    PGM_P getCustomsStyle()
     {
-      ESP_WML_LOGDEBUG1(F("Get CustomsStyle = "), ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE);
+      ESP_WML_LOGDEBUG1(F("Get CustomsStyle = "), FPSTR(ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE));
       return ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE;
     }
 #endif
@@ -1379,15 +1379,15 @@ class ESP_WiFiManager_Lite
     // Add customs headers from v1.2.0
 
 #if USING_CUSTOMS_STYLE
-    const char* ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE = NULL;
+    PGM_P ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE = nullptr;
 #endif
 
 #if USING_CUSTOMS_HEAD_ELEMENT
-    const char* _CustomsHeadElement = NULL;
+    PGM_P _CustomsHeadElement = nullptr;
 #endif
 
 #if USING_CORS_FEATURE
-    const char* _CORS_Header        = WM_HTTP_CORS_ALLOW_ALL;   // "*";
+    PGM_P _CORS_Header        = WM_HTTP_CORS_ALLOW_ALL;   // "*";
 #endif
 
     //////////////////////////////////////
@@ -2630,18 +2630,18 @@ class ESP_WiFiManager_Lite
     {
       String pitem;
 
-      root_html_template  = ESP_WM_LITE_HTML_HEAD_START;
+      root_html_template = FPSTR(ESP_WM_LITE_HTML_HEAD_START);
 
 #if USING_CUSTOMS_STYLE
 
       // Using Customs style when not NULL
       if (ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE)
-        root_html_template  += ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE;
+        root_html_template += FPSTR(ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE);
       else
-        root_html_template  += ESP_WM_LITE_HTML_HEAD_STYLE;
+        root_html_template += FPSTR(ESP_WM_LITE_HTML_HEAD_STYLE);
 
 #else
-      root_html_template  += ESP_WM_LITE_HTML_HEAD_STYLE;
+      root_html_template += FPSTR(ESP_WM_LITE_HTML_HEAD_STYLE);
 #endif
 
 #if USING_CUSTOMS_HEAD_ELEMENT
@@ -2663,37 +2663,37 @@ class ESP_WiFiManager_Lite
         if (indices[i] == -1)
           continue;     // skip duplicates and those that are below the required quality
 
-        ListOfSSIDs += ESP_WM_LITE_OPTION_START + String(WiFi.SSID(indices[i])) + ESP_WM_LITE_OPTION_END;
+        ListOfSSIDs += String(FPSTR(ESP_WM_LITE_OPTION_START)) + String(WiFi.SSID(indices[i])) + String(FPSTR(ESP_WM_LITE_OPTION_END));
         list_items++;   // Count number of suitable, distinct SSIDs to be included in list
       }
 
       ESP_WML_LOGDEBUG(ListOfSSIDs);
 
       if (ListOfSSIDs == "")    // No SSID found or none was good enough
-        ListOfSSIDs = ESP_WM_LITE_OPTION_START + String(ESP_WM_LITE_NO_NETWORKS_FOUND) + ESP_WM_LITE_OPTION_END;
+        ListOfSSIDs = String(FPSTR(ESP_WM_LITE_OPTION_START)) + String(FPSTR(ESP_WM_LITE_NO_NETWORKS_FOUND)) + String(FPSTR(ESP_WM_LITE_OPTION_END));
 
-      pitem = String(ESP_WM_LITE_HTML_HEAD_END);
+      pitem = String(FPSTR(ESP_WM_LITE_HTML_HEAD_END));
 
 #if MANUAL_SSID_INPUT_ALLOWED
-      pitem.replace("[[input_id]]",  "<input id='id' list='SSIDs'>"  + String(ESP_WM_LITE_DATALIST_START) + "'SSIDs'>" +
-                    ListOfSSIDs + ESP_WM_LITE_DATALIST_END);
+      pitem.replace("[[input_id]]",  "<input id='id' list='SSIDs'>"  + String(FPSTR(ESP_WM_LITE_DATALIST_START)) + "'SSIDs'>" +
+                    ListOfSSIDs + FPSTR(ESP_WM_LITE_DATALIST_END));
       ESP_WML_LOGDEBUG1(F("pitem:"), pitem);
-      pitem.replace("[[input_id1]]", "<input id='id1' list='SSIDs'>" + String(ESP_WM_LITE_DATALIST_START) + "'SSIDs'>" +
-                    ListOfSSIDs + ESP_WM_LITE_DATALIST_END);
+      pitem.replace("[[input_id1]]", "<input id='id1' list='SSIDs'>" + String(FPSTR(ESP_WM_LITE_DATALIST_START)) + "'SSIDs'>" +
+                    ListOfSSIDs + FPSTR(ESP_WM_LITE_DATALIST_END));
       ESP_WML_LOGDEBUG1(F("pitem:"), pitem);
 #else
-      pitem.replace("[[input_id]]",  "<select id='id'>"  + ListOfSSIDs + ESP_WM_LITE_SELECT_END);
-      pitem.replace("[[input_id1]]", "<select id='id1'>" + ListOfSSIDs + ESP_WM_LITE_SELECT_END);
+      pitem.replace("[[input_id]]",  "<select id='id'>"  + ListOfSSIDs + FPSTR(ESP_WM_LITE_SELECT_END));
+      pitem.replace("[[input_id1]]", "<select id='id1'>" + ListOfSSIDs + FPSTR(ESP_WM_LITE_SELECT_END));
 #endif
 
-      root_html_template += pitem + ESP_WM_LITE_FLDSET_START;
+      root_html_template += pitem + FPSTR(ESP_WM_LITE_FLDSET_START);
 
 #else
 
-      pitem = String(ESP_WM_LITE_HTML_HEAD_END);
-      pitem.replace("[[input_id]]",  ESP_WM_LITE_HTML_INPUT_ID);
-      pitem.replace("[[input_id1]]", ESP_WM_LITE_HTML_INPUT_ID1);
-      root_html_template += pitem + ESP_WM_LITE_FLDSET_START;
+      pitem = String(FPSTR(ESP_WM_LITE_HTML_HEAD_END));
+      pitem.replace("[[input_id]]",  FPSTR(ESP_WM_LITE_HTML_INPUT_ID));
+      pitem.replace("[[input_id1]]", FPSTR(ESP_WM_LITE_HTML_INPUT_ID1));
+      root_html_template += pitem + FPSTR(ESP_WM_LITE_FLDSET_START);
 
 #endif    // SCAN_WIFI_NETWORKS
 
@@ -2701,7 +2701,7 @@ class ESP_WiFiManager_Lite
 
       for (uint16_t i = 0; i < NUM_MENU_ITEMS; i++)
       {
-        pitem = String(ESP_WM_LITE_HTML_PARAM);
+        pitem = String(FPSTR(ESP_WM_LITE_HTML_PARAM));
 
         pitem.replace("{b}", myMenuItems[i].displayName);
         pitem.replace("{v}", myMenuItems[i].id);
@@ -2712,13 +2712,13 @@ class ESP_WiFiManager_Lite
 
 #endif
 
-      root_html_template += String(ESP_WM_LITE_FLDSET_END) + ESP_WM_LITE_HTML_BUTTON + ESP_WM_LITE_HTML_SCRIPT;
+      root_html_template += String(FPSTR(ESP_WM_LITE_FLDSET_END)) + FPSTR(ESP_WM_LITE_HTML_BUTTON) + FPSTR(ESP_WM_LITE_HTML_SCRIPT);
 
 #if USE_DYNAMIC_PARAMETERS
 
       for (uint16_t i = 0; i < NUM_MENU_ITEMS; i++)
       {
-        pitem = String(ESP_WM_LITE_HTML_SCRIPT_ITEM);
+        pitem = String(FPSTR(ESP_WM_LITE_HTML_SCRIPT_ITEM));
 
         pitem.replace("{d}", myMenuItems[i].id);
 
@@ -2727,7 +2727,7 @@ class ESP_WiFiManager_Lite
 
 #endif
 
-      root_html_template += String(ESP_WM_LITE_HTML_SCRIPT_END) + ESP_WM_LITE_HTML_END;
+      root_html_template += String(FPSTR(ESP_WM_LITE_HTML_SCRIPT_END)) + FPSTR(ESP_WM_LITE_HTML_END);
 
       return;
     }
@@ -2736,20 +2736,20 @@ class ESP_WiFiManager_Lite
 
     void serverSendHeaders()
     {
-      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_CACHE_CONTROL:"), WM_HTTP_CACHE_CONTROL, " : ", WM_HTTP_NO_STORE);
-      server->sendHeader(WM_HTTP_CACHE_CONTROL, WM_HTTP_NO_STORE);
+      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_CACHE_CONTROL:"), FPSTR(WM_HTTP_CACHE_CONTROL), " : ", FPSTR(WM_HTTP_NO_STORE));
+      server->sendHeader(FPSTR(WM_HTTP_CACHE_CONTROL), FPSTR(WM_HTTP_NO_STORE));
 
 #if USING_CORS_FEATURE
       // New from v1.2.0, for configure CORS Header, default to WM_HTTP_CORS_ALLOW_ALL = "*"
-      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_CORS:"), WM_HTTP_CORS, " : ", _CORS_Header);
-      server->sendHeader(WM_HTTP_CORS, _CORS_Header);
+      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_CORS:"), FPSTR(WM_HTTP_CORS), " : ", FPSTR(_CORS_Header));
+      server->sendHeader(FPSTR(WM_HTTP_CORS), FPSTR(_CORS_Header));
 #endif
 
-      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_PRAGMA:"), WM_HTTP_PRAGMA, " : ", WM_HTTP_NO_CACHE);
-      server->sendHeader(WM_HTTP_PRAGMA, WM_HTTP_NO_CACHE);
+      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_PRAGMA:"), FPSTR(WM_HTTP_PRAGMA), " : ", FPSTR(WM_HTTP_NO_CACHE));
+      server->sendHeader(FPSTR(WM_HTTP_PRAGMA), FPSTR(WM_HTTP_NO_CACHE));
 
-      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_EXPIRES:"), WM_HTTP_EXPIRES, " : ", "-1");
-      server->sendHeader(WM_HTTP_EXPIRES, "-1");
+      ESP_WML_LOGDEBUG3(F("serverSendHeaders:WM_HTTP_EXPIRES:"), FPSTR(WM_HTTP_EXPIRES), " : ", "-1");
+      server->sendHeader(FPSTR(WM_HTTP_EXPIRES), "-1");
     }
 
     //////////////////////////////////////////////
@@ -2824,7 +2824,7 @@ class ESP_WiFiManager_Lite
           ESP_WML_LOGDEBUG1(F("h:HTML page size:"), result.length());
           ESP_WML_LOGDEBUG1(F("h:HTML="), result);
 
-          server->send(200, WM_HTTP_HEAD_TEXT_HTML, result);
+          server->send(200, FPSTR(WM_HTTP_HEAD_TEXT_HTML), result);
 
           return;
         }
@@ -2967,7 +2967,7 @@ class ESP_WiFiManager_Lite
         ESP_WML_LOGDEBUG1(F("h:items updated ="), number_items_Updated);
         ESP_WML_LOGDEBUG3(F("h:key ="), key, ", value =", value);
 
-        server->send(200, WM_HTTP_HEAD_TEXT_HTML, "OK");
+        server->send(200, FPSTR(WM_HTTP_HEAD_TEXT_HTML), "OK");
 
 #if USE_DYNAMIC_PARAMETERS
 
