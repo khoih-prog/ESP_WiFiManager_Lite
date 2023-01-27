@@ -849,9 +849,9 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 #### 1.1. MRD/DRD => Open Config Portal
 
-```
+```cpp
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -920,9 +920,9 @@ CCCCCCCCC
 
 #### 1.2. Got valid Credentials from Config Portal then connected to WiFi
 
-```
+```cpp
 Starting ESP_WiFi using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -973,7 +973,7 @@ HHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHH
 
 #### 1.3. Lost a WiFi and autoconnect to another WiFi AP
 
-```
+```cpp
 [WML] run: WiFi lost. Reconnect WiFi
 [WML] Connecting MultiWifi...
 [WML] WiFi connected after time: 2
@@ -992,9 +992,9 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 #### 2.1. No Config Data => Open Config Portal
 
-```
+```cpp
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1053,7 +1053,7 @@ CCC
 
 #### 2.2. Got valid Credentials from Config Portal then connected to WiFi
 
-```
+```cpp
 [WML] h:UpdLittleFS
 [WML] SaveCfgFile 
 [WML] WCSum=0x13a5
@@ -1066,10 +1066,10 @@ CCC
 [WML] SaveBkUpCredFile 
 [WML] OK
 [WML] h:Rst
-
+...
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP8266_NODEMCU
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1140,7 +1140,7 @@ TWTWTWTW TW
 
 #### 2.3. Lost a WiFi and autoconnect to another WiFi AP
 
-```
+```cpp
 [WML] run: WiFi lost. Reconnect WiFi
 [WML] Connecting MultiWifi...
 [WML] WiFi connected after time: 1
@@ -1159,9 +1159,9 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 #### 3.1. No Config Data => Open Config Portal
 
-```
+```cpp
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1201,7 +1201,7 @@ CCC C
 
 #### 3.2. Got valid Credentials from Config Portal then connected to WiFi
 
-```
+```cpp
 [WML] h: Init menuItemUpdated
 [WML] h:repl id
 [WML] h:items updated =1
@@ -1271,10 +1271,10 @@ load:0x3ffe6108,len:0x608
 load:0x4004c000,len:0xa38
 load:0x40050000,len:0x2848
 entry 0x4004c190
-
+...
 
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1355,7 +1355,7 @@ TWTWTWTW TW
 
 #### 3.3. Lost a WiFi and autoconnect to another WiFi AP
 
-```
+```cpp
 [WML] run: WiFi lost. Reconnect WiFi
 [WML] Connecting MultiWifi...
 [WML] WiFi connected after time: 1
@@ -1374,9 +1374,9 @@ This is the terminal output when running [**ESP_WiFi_MQTT**](examples/ESP_WiFi_M
 
 #### 4.1. MultiResetDetected => Open Config Portal
 
-```
+```cpp
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -1402,9 +1402,9 @@ NNNN NNNNN NNNNN NNNNN NN[WML] h:UpdLittleFS
 #### 4.2. Got valid Credentials from Config Portal then connected to WiFi
 
 
-```
+```cpp
 Starting ESP_WiFi_MQTT using LittleFS on ESP32S2_DEV
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1458,9 +1458,9 @@ This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) examp
 
 #### 5.1 MRD/DRD => Open Config Portal
 
-```
+```cpp
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFC0003
 multiResetDetectorFlag = 0xFFFC0003
@@ -1502,9 +1502,9 @@ CCC
 
 ### 5.2 Config Data Saved => Connection to Adafruit MQTT
 
-```
+```cpp
 Starting ESP_WiFi_MQTT using LittleFS on ESP32_DEV
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1550,9 +1550,9 @@ TWTWTWTW TWTW
 This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) example on **ESP32S3_DEV**
 
 
-```
+```cpp
 Starting ESP_WiFi using LittleFS on ESP32S3_DEV
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1592,9 +1592,9 @@ HHH
 This is the terminal output when running [**ESP_WiFi**](examples/ESP_WiFi) example on **ESP32C3_DEV** using LittleFS
 
 
-```
+```cpp
 Starting ESP_WiFi using LittleFS on ESP32C3_DEV
-ESP_WiFiManager_Lite v1.10.3
+ESP_WiFiManager_Lite v1.10.4
 ESP_MultiResetDetector v1.3.2
 LittleFS Flag read = 0xFFFE0001
 multiResetDetectorFlag = 0xFFFE0001
@@ -1713,7 +1713,7 @@ Submit issues to: [ESP_WiFiManager_Lite issues](https://github.com/khoih-prog/ES
 37. Add option to not `USE_LED_BUILTIN` for Config-Portal. Check [added switch to turn use of builtin LED off #20](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/20)
 38. Add public methods to load and save dynamic data
 39. Add Config Portal `scaling` support to mobile devices
-
+40. Using PROGMEM for HTML strings. Check [move HTML char* into PROGMEM #35](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/35)
 
 ---
 ---
@@ -1731,11 +1731,12 @@ Please help contribute to this project and add your name here.
   - [added public methods to load and save dynamic data #28](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/28)
   - [Mobile scale #30](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/30)
   - [fix compiler error if EEPROM is used #33](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/33)
+  - [move HTML char* into PROGMEM #35](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/35)
     
 <table>
   <tr>
     <td align="center"><a href="https://github.com/bizprof"><img src="https://github.com/bizprof.png" width="100px;" alt="bizprof"/><br /><sub><b>⭐️⭐️ Michael H. "bizprof"</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/hmueller01"><img src="https://github.com/hmueller01.png" width="100px;" alt="hmueller01"/><br /><sub><b>⭐️ Holger Müller</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/hmueller01"><img src="https://github.com/hmueller01.png" width="100px;" alt="hmueller01"/><br /><sub><b>⭐️⭐️ Holger Müller</b></sub></a><br /></td>
   </tr> 
 </table>
 

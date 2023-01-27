@@ -9,7 +9,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
 
-  Version: 1.10.3
+  Version: 1.10.4
 
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
@@ -22,6 +22,7 @@
   1.10.1  K Hoang      12/01/2023  Added public methods to load and save dynamic data
   1.10.2  K Hoang      15/01/2023  Add Config Portal scaling support to mobile devices
   1.10.3  K Hoang      19/01/2023  Fix compiler error if EEPROM is used
+  1.10.4  K Hoang      27/01/2023  Using PROGMEM for HTML strings
  *****************************************************************************************************************************/
 
 #pragma once
@@ -30,35 +31,35 @@
 #define ESP_WiFiManager_Lite_h
 
 #if !( defined(ESP8266) ||  defined(ESP32) )
-#error This code is intended to run on the ESP8266 or ESP32 platform! Please check your Tools->Board setting.
+  #error This code is intended to run on the ESP8266 or ESP32 platform! Please check your Tools->Board setting.
 #elif ( ARDUINO_ESP32S2_DEV || ARDUINO_FEATHERS2 || ARDUINO_ESP32S2_THING_PLUS || ARDUINO_MICROS2 || \
         ARDUINO_METRO_ESP32S2 || ARDUINO_MAGTAG29_ESP32S2 || ARDUINO_FUNHOUSE_ESP32S2 || \
         ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM )
-#warning Using ESP32_S2. To follow library instructions to install esp32-s2 core and WebServer Patch
-#define USING_ESP32_S2        true
+  #warning Using ESP32_S2. To follow library instructions to install esp32-s2 core and WebServer Patch
+  #define USING_ESP32_S2        true
 #elif ( ARDUINO_ESP32C3_DEV )
-#if ( defined(ESP_ARDUINO_VERSION_MAJOR) && (ESP_ARDUINO_VERSION_MAJOR >= 2) )
-  #warning Using ESP32_C3 using core v2.0.0+. Either LittleFS, SPIFFS or EEPROM OK.
-#else
-  #warning Using ESP32_C3 using core v1.0.6-. To follow library instructions to install esp32-c3 core. Only SPIFFS and EEPROM OK.
-#endif
+  #if ( defined(ESP_ARDUINO_VERSION_MAJOR) && (ESP_ARDUINO_VERSION_MAJOR >= 2) )
+    #warning Using ESP32_C3 using core v2.0.0+. Either LittleFS, SPIFFS or EEPROM OK.
+  #else
+    #warning Using ESP32_C3 using core v1.0.6-. To follow library instructions to install esp32-c3 core. Only SPIFFS and EEPROM OK.
+  #endif
 
-#warning You have to select Flash size 2MB and Minimal APP (1.3MB + 700KB) for some boards
-#define USING_ESP32_C3        true
+  #warning You have to select Flash size 2MB and Minimal APP (1.3MB + 700KB) for some boards
+  #define USING_ESP32_C3        true
 #elif ( defined(ARDUINO_ESP32S3_DEV) || defined(ARDUINO_ESP32_S3_BOX) || defined(ARDUINO_TINYS3) || \
         defined(ARDUINO_PROS3) || defined(ARDUINO_FEATHERS3) )
-#warning Using ESP32_S3. To install esp32-s3-support branch if using core v2.0.2-.
-#define USING_ESP32_S3        true
+  #warning Using ESP32_S3. To install esp32-s3-support branch if using core v2.0.2-.
+  #define USING_ESP32_S3        true
 #endif
 
 #ifndef ESP_WIFI_MANAGER_LITE_VERSION
-  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.10.3"
+  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.10.4"
 
   #define ESP_WIFI_MANAGER_LITE_VERSION_MAJOR       1
   #define ESP_WIFI_MANAGER_LITE_VERSION_MINOR       10
-  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       3
+  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       4
 
-  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1010003
+  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1010004
 #endif
 
 #ifdef ESP8266
