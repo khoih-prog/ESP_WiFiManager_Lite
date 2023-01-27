@@ -2663,7 +2663,7 @@ class ESP_WiFiManager_Lite
         if (indices[i] == -1)
           continue;     // skip duplicates and those that are below the required quality
 
-        ListOfSSIDs += FPSTR(ESP_WM_LITE_OPTION_START) + String(WiFi.SSID(indices[i])) + FPSTR(ESP_WM_LITE_OPTION_END);
+        ListOfSSIDs += String(FPSTR(ESP_WM_LITE_OPTION_START)) + String(WiFi.SSID(indices[i])) + String(FPSTR(ESP_WM_LITE_OPTION_END));
         list_items++;   // Count number of suitable, distinct SSIDs to be included in list
       }
 
