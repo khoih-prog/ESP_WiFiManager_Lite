@@ -1222,16 +1222,16 @@ class ESP_WiFiManager_Lite
     // fieldset{border-radius:0.3rem;margin:0px;}</style>";
     void setCustomsStyle(PGM_P CustomsStyle = ESP_WM_LITE_HTML_HEAD_STYLE)
     {
-      ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE = CustomsStyle;
-      ESP_WML_LOGDEBUG1(F("Set CustomsStyle to : "), FPSTR(ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE));
+      _CustomsHeadStyle = CustomsStyle;
+      ESP_WML_LOGDEBUG1(F("Set CustomsStyle to : "), FPSTR(_CustomsHeadStyle));
     }
 
     //////////////////////////////////////
 
     PGM_P getCustomsStyle()
     {
-      ESP_WML_LOGDEBUG1(F("Get CustomsStyle = "), FPSTR(ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE));
-      return ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE;
+      ESP_WML_LOGDEBUG1(F("Get CustomsStyle = "), FPSTR(_CustomsHeadStyle));
+      return _CustomsHeadStyle;
     }
 #endif
 
@@ -1239,7 +1239,7 @@ class ESP_WiFiManager_Lite
 
 #if USING_CUSTOMS_HEAD_ELEMENT
     //sets a custom element to add to head, like a new style tag
-    void setCustomsHeadElement(const char* CustomsHeadElement = NULL)
+    void setCustomsHeadElement(PGM_P CustomsHeadElement = NULL)
     {
       _CustomsHeadElement = CustomsHeadElement;
       ESP_WML_LOGDEBUG1(F("Set CustomsHeadElement to : "), _CustomsHeadElement);
@@ -1247,7 +1247,7 @@ class ESP_WiFiManager_Lite
 
     //////////////////////////////////////
 
-    const char* getCustomsHeadElement()
+    PGM_P getCustomsHeadElement()
     {
       ESP_WML_LOGDEBUG1(F("Get CustomsHeadElement = "), _CustomsHeadElement);
       return _CustomsHeadElement;
@@ -1257,16 +1257,15 @@ class ESP_WiFiManager_Lite
     //////////////////////////////////////
 
 #if USING_CORS_FEATURE
-    void setCORSHeader(const char* CORSHeaders = NULL)
+    void setCORSHeader(PGM_P CORSHeaders = NULL)
     {
       _CORS_Header = CORSHeaders;
-
       ESP_WML_LOGDEBUG1(F("Set CORS Header to : "), _CORS_Header);
     }
 
     //////////////////////////////////////
 
-    const char* getCORSHeader()
+    PGM_P getCORSHeader()
     {
       ESP_WML_LOGDEBUG1(F("Get CORS Header = "), _CORS_Header);
       return _CORS_Header;
@@ -1380,7 +1379,7 @@ class ESP_WiFiManager_Lite
     // Add customs headers from v1.2.0
 
 #if USING_CUSTOMS_STYLE
-    PGM_P ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE = nullptr;
+    PGM_P _CustomsHeadStyle = nullptr;
 #endif
 
 #if USING_CUSTOMS_HEAD_ELEMENT
@@ -2636,8 +2635,8 @@ class ESP_WiFiManager_Lite
 #if USING_CUSTOMS_STYLE
 
       // Using Customs style when not NULL
-      if (ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE)
-        root_html_template += FPSTR(ESP_WM_LITE_HTML_HEAD_CUSTOMS_STYLE);
+      if (_CustomsHeadStyle)
+        root_html_template += FPSTR(_CustomsHeadStyle);
       else
         root_html_template += FPSTR(ESP_WM_LITE_HTML_HEAD_STYLE);
 
