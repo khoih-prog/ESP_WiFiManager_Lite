@@ -555,7 +555,7 @@ In `Configuration Portal Mode`, it starts an AP called `ESP_ABCDEF`. Connect to 
 After you connected, please, go to http://192.168.4.1 or newly configured AP IP, you'll see this `Main` page:
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/main/pics/Main.png">
+    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/raw/main/pics/Main.png">
 </p>
 
 Enter your credentials, 
@@ -565,27 +565,27 @@ Enter your credentials,
 Enter your credentials, 
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/main/pics/Input.png">
+    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/raw/main/pics/Input.png">
 </p>
 
 or
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/main/pics/MQTT.png">
+    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/raw/main/pics/MQTT.png">
 </p>
 
 ### 2. With SCAN_WIFI_NETWORKS
 
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/main/pics/Input_With_Scan.png">
+    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/raw/main/pics/Input_With_Scan.png">
 </p>
 
 
 then click `Save`. 
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/blob/main/pics/Save.png">
+    <img src="https://github.com/khoih-prog/ESP_WiFiManager_Lite/raw/main/pics/Save.png">
 </p>
 
 The WiFi Credentials will be saved and the board connect to the selected WiFi AP.
