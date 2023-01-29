@@ -9,7 +9,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
   *****************************************************************************************************************************/
-  
+
 #include "defines.h"
 #include "Credentials.h"
 #include "dynamicParams.h"
@@ -56,8 +56,8 @@ void check_status()
 }
 
 #if USING_CUSTOMS_STYLE
-const char NewCustomsStyle[] /*PROGMEM*/ = "<style>div,input{padding:5px;font-size:1em;}input{width:95%;}body{text-align: center;}\
-button{background-color:blue;color:white;line-height:2.4rem;font-size:1.2rem;width:100%;}fieldset{border-radius:0.3rem;margin:0px;}</style>";
+const char NewCustomsStyle[] PROGMEM = "<style>div,input{padding:5px;font-size:1em;}input{width:95%;}body{text-align: center;}"\
+"button{background-color:blue;color:white;line-height:2.4rem;font-size:1.2rem;width:100%;}fieldset{border-radius:0.3rem;margin:0px;}</style>";
 #endif
 
 void setup()
@@ -95,11 +95,11 @@ void setup()
 #endif
 
 #if USING_CUSTOMS_HEAD_ELEMENT
-  ESP_WiFiManager->setCustomsHeadElement("<style>html{filter: invert(10%);}</style>");
+  ESP_WiFiManager->setCustomsHeadElement(PSTR("<style>html{filter: invert(10%);}</style>"));
 #endif
 
 #if USING_CORS_FEATURE  
-  ESP_WiFiManager->setCORSHeader("Your Access-Control-Allow-Origin");
+  ESP_WiFiManager->setCORSHeader(PSTR("Your Access-Control-Allow-Origin"));
 #endif
 
   // Set customized DHCP HostName
