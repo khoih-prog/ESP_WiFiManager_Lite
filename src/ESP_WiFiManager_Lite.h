@@ -9,7 +9,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/ESP_WiFiManager_Lite
   Licensed under MIT license
 
-  Version: 1.10.4
+  Version: 1.10.5
 
   Version Modified By   Date        Comments
   ------- -----------  ----------   -----------
@@ -23,6 +23,7 @@
   1.10.2  K Hoang      15/01/2023  Add Config Portal scaling support to mobile devices
   1.10.3  K Hoang      19/01/2023  Fix compiler error if EEPROM is used
   1.10.4  K Hoang      27/01/2023  Using PROGMEM for HTML strings
+  1.10.5  K Hoang      28/01/2023  Using PROGMEM for strings in examples
  *****************************************************************************************************************************/
 
 #pragma once
@@ -55,13 +56,13 @@
 ///////////////////////////////////////////
 
 #ifndef ESP_WIFI_MANAGER_LITE_VERSION
-  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.10.4"
+  #define ESP_WIFI_MANAGER_LITE_VERSION             "ESP_WiFiManager_Lite v1.10.5"
 
   #define ESP_WIFI_MANAGER_LITE_VERSION_MAJOR       1
   #define ESP_WIFI_MANAGER_LITE_VERSION_MINOR       10
-  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       4
+  #define ESP_WIFI_MANAGER_LITE_VERSION_PATCH       5
 
-  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1010004
+  #define ESP_WIFI_MANAGER_LITE_VERSION_INT         1010005
 #endif
 
 ///////////////////////////////////////////

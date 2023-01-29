@@ -15,6 +15,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Release v1.10.5](#release-v1105)
   * [Release v1.10.4](#release-v1104)
   * [Release v1.10.3](#release-v1103)
   * [Release v1.10.2](#release-v1102)
@@ -38,6 +39,11 @@
 ---
 
 ## Changelog
+
+### Release v1.10.5
+
+1. Using PROGMEM for strings in examples. Check [Example fixes #37](https://github.com/khoih-prog/ESP_WiFiManager_Lite/pull/37)
+2. Improve `README.md` so that links can be used in other sites, such as `PIO`
 
 ### Release v1.10.4
 
